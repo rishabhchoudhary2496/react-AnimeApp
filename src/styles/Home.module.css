@@ -1,0 +1,9 @@
+.horizontalRow {
+  display: flex;
+  padding: 1rem 3rem;
+}
+
+.heading {
+  font-size: 2rem;
+  color: #2c3e50;
+}

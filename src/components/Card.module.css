@@ -1,0 +1,30 @@
+.card {
+  margin: 1rem 1rem;
+  padding: 1rem 1rem;
+  transition: all 0.3s;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.card:hover {
+  transform: scale(1.1);
+  border-color: #3498db;
+}
+
+.title {
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.8);
+  text-decoration: none;
+}
+
+.startDate {
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.8);
+  text-decoration: none;
+}
+
+a {
+  text-decoration: none;
+}

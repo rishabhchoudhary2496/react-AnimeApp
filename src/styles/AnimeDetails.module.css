@@ -1,0 +1,23 @@
+.container {
+  width: 100%;
+}
+
+.flex {
+  /* background-color: royalblue; */
+  display: flex;
+  padding: 1rem 1rem;
+  flex-wrap: wrap;
+}
+
+.textBox {
+  padding-left: 1rem;
+  /* background-color: royalblue; */
+}
+
+.synopsis {
+  padding-left: 1rem;
+}
+
+.synopsisText {
+  line-height: 1.6rem;
+}
