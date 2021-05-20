@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactElement } from 'react'
+import { useState, useEffect, ReactElement, useCallback } from 'react'
 import styles from '../styles/Home.module.css'
 import {
   getTopAiringAnime,
@@ -30,49 +30,43 @@ const Home = (): ReactElement => {
   const [topSpecials, setTopSpecials] = useState<Anime[]>([])
   const [topTv, setTopTv] = useState<Anime[]>([])
 
-  useEffect(() => {
-    ;(async function () {
-      const data = await getTopUpcomingAnime()
-      setUpcomingAnime(data)
-      console.log(upcomingAnime)
-    })()
+  const getUpcomingAnime = useCallback(async () => {
+    const data = await getTopUpcomingAnime()
+    setUpcomingAnime(data)
+    console.log('upcomingAnime', upcomingAnime)
   }, [upcomingAnime])
 
-  useEffect(() => {
-    ;(async function () {
-      const data = await getTopAiringAnime()
-      setAiringAnime(data)
-      console.log(airingAnime)
-    })()
+  const getAiringAnime = useCallback(async () => {
+    const data = await getTopAiringAnime()
+    setAiringAnime(data)
+    console.log('airingAnime', airingAnime)
   }, [airingAnime])
 
-  useEffect(() => {
-    ;(async function () {
-      const data = await getTopAnimeMovies()
-      setAnimeMovies(data)
-      console.log(animeMovie)
-    })()
+  const getAnimeMovies = useCallback(async () => {
+    const data = await getTopAnimeMovies()
+    setAnimeMovies(data)
+    console.log('animeMovies', animeMovie)
   }, [animeMovie])
 
-  useEffect(() => {
-    ;(async function () {
-      const data = await getTopSpecials()
-      setTopSpecials(data)
-      console.log(topSpecials)
-    })()
+  const getSpecials = useCallback(async () => {
+    const data = await getTopSpecials()
+    setTopSpecials(data)
+    console.log('specials', topSpecials)
   }, [topSpecials])
 
-  useEffect(() => {
-    ;(async function () {
-      const data = await getTopTv()
-      setTopTv(data)
-      console.log(topTv)
-    })()
+  const getTv = useCallback(async () => {
+    const data = await getTopTv()
+    setTopTv(data)
+    console.log('tv', topTv)
   }, [topTv])
 
-  const handleClick = () => {
-    console.log('clicked')
-  }
+  useEffect(() => {
+    getUpcomingAnime()
+    getAiringAnime()
+    getAnimeMovies()
+    getSpecials()
+    getTv()
+  })
 
   return (
     <div className={styles.container}>

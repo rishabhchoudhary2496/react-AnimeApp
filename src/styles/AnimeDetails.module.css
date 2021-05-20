@@ -2,6 +2,14 @@
   width: 100%;
 }
 
+.horizontalRow {
+  display: flex;
+}
+
+.paddingHeading {
+  padding: 0rem 1rem;
+}
+
 .flex {
   /* background-color: royalblue; */
   display: flex;
@@ -11,13 +19,20 @@
 
 .textBox {
   padding-left: 1rem;
+  padding-right: 1rem;
   /* background-color: royalblue; */
 }
 
 .synopsis {
   padding-left: 1rem;
+  /* background-color: red; */
+  margin: 2.5rem 0rem;
 }
 
 .synopsisText {
   line-height: 1.6rem;
+}
+
+.charactersDiv {
+  margin: 1rem 0rem;
 }

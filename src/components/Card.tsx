@@ -1,4 +1,4 @@
-import React from 'react'
+import { ReactElement } from 'react'
 import styles from './Card.module.css'
 import { Link } from 'react-router-dom'
 
@@ -28,14 +28,14 @@ const Card = ({
   title,
   type,
   url,
-}: CardProps) => {
+}: CardProps): ReactElement => {
   return (
     <Link to={`/animeDetails/${mal_id}`}>
       <div className={styles.card}>
         <img src={image_url} alt='poster'></img>
         <p className={styles.title}>{title}</p>
         {start_date && <p className={styles.startDate}>Airing {start_date}</p>}
-        {score > 0 && <p>⭐ {score}</p>}
+        {score > 0 && <p className={styles.score}>⭐ {score}</p>}
       </div>
     </Link>
   )
