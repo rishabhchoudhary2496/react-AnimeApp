@@ -8,6 +8,17 @@
 
 .paddingHeading {
   padding: 0rem 1rem;
+  font-family: 'Montserrat', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  font-family: 'Montserrat', sans-serif;
 }
 
 .flex {
@@ -30,9 +41,51 @@
 }
 
 .synopsisText {
-  line-height: 1.6rem;
+  line-height: 1.7rem;
+  font-size: 1.1rem;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .charactersDiv {
   margin: 1rem 0rem;
+}
+
+.penIcon {
+  margin: 0px 5px;
+  color: #8c7ae6;
+}
+
+.favIcon {
+  margin: 0px 5px;
+  color: red;
+}
+
+.usersIcon {
+  margin: 0px 5px;
+  color: #3498db;
+}
+
+.typeIcon {
+  margin: 0px 5px;
+  color: #2ecc71;
+}
+
+.waveIcon {
+  margin: 0px 5px;
+  color: #d35400;
+}
+
+.bulbIcon {
+  margin: 0px 5px;
+  color: #f1c40f;
+}
+
+.thermometerIcon {
+  margin: 0px 5px;
+  color: #e74c3c;
+}
+
+.starIcon {
+  margin: 0px 5px;
+  color: #fbc531;
 }

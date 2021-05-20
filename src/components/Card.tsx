@@ -1,7 +1,8 @@
 import { ReactElement } from 'react'
 import styles from './Card.module.css'
 import { Link } from 'react-router-dom'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
 interface CardProps {
   end_date: Date | null
   episodes: Number | null
@@ -35,7 +36,13 @@ const Card = ({
         <img src={image_url} alt='poster'></img>
         <p className={styles.title}>{title}</p>
         {start_date && <p className={styles.startDate}>Airing {start_date}</p>}
-        {score > 0 && <p className={styles.score}>⭐ {score}</p>}
+        {score > 0 && (
+          <p className={styles.score}>
+            {' '}
+            <FontAwesomeIcon className={styles.starIcon} icon={faStar} />{' '}
+            {score}
+          </p>
+        )}
       </div>
     </Link>
   )

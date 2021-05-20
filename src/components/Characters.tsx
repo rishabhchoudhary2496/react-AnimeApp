@@ -22,7 +22,7 @@ const Characters = ({
     <div className={styles.card}>
       <img src={image_url} alt='character'></img>
       <p className={styles.title}>{name}</p>
-      <p>{role}</p>
+      <p className={styles.title}>{role}</p>
     </div>
   )
 }

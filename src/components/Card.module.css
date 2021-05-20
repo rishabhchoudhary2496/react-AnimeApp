@@ -6,6 +6,7 @@
   border-radius: 4px;
   cursor: pointer;
   text-decoration: none;
+  max-width: 225px;
 }
 
 .card:hover {
@@ -17,12 +18,14 @@
   font-weight: 400;
   color: rgba(0, 0, 0, 0.8);
   text-decoration: none;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .startDate {
   font-weight: 500;
   color: rgba(0, 0, 0, 0.8);
   text-decoration: none;
+  font-family: 'Montserrat', sans-serif;
 }
 
 a {
@@ -31,4 +34,10 @@ a {
 
 .score {
   color: rgba(0, 0, 0, 0.8);
+  font-family: 'Montserrat', sans-serif;
+}
+
+.starIcon {
+  margin: 0px 5px;
+  color: #fbc531;
 }

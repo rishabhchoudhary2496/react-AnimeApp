@@ -8,6 +8,18 @@ import styles from '../styles/AnimeDetails.module.css'
 import ReactPlayer from 'react-player'
 import CharactersList from '../components/Characters'
 import RecommendationList from '../components/Recommendation'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faLightbulb,
+  faUser,
+  faHeart,
+  faUsers,
+  faPen,
+  faWaveSquare,
+  faArchive,
+  faThermometer,
+  faStar,
+} from '@fortawesome/free-solid-svg-icons'
 
 interface Match {
   match: {
@@ -111,17 +123,80 @@ const AnimeDetail = ({ match }: Match): ReactElement => {
         <img src={details?.image_url} alt='' />
         <div className={styles.textBox}>
           {details?.title_english && (
-            <p>English Title: {details?.title_english}</p>
+            <p>
+              English Title
+              <FontAwesomeIcon className={styles.penIcon} icon={faPen} />:{' '}
+              {details?.title_english}
+            </p>
           )}
-          <p>Title: {details?.title}</p>
-          <p>Favorites: {details?.favorites}</p>
-          <p>Members: {details?.members}</p>
-          {details?.rating && <p>Rating: {details?.rating}</p>}
-          <p>Type: {details?.type}</p>
-          {details?.status && <p>Status: {details?.status}</p>}
-          {details?.source && <p>Source: {details?.source}</p>}
-          {details?.rank && <p>Rank: {details?.rank}</p>}
-          {details?.score && <p>Score: {details?.score}</p>}
+          <p>
+            Title
+            <FontAwesomeIcon className={styles.penIcon} icon={faPen} />:{' '}
+            {details?.title}
+          </p>
+          <p>
+            Favorites
+            <FontAwesomeIcon className={styles.favIcon} icon={faHeart} />:{' '}
+            {details?.favorites}
+          </p>
+          <p>
+            Members
+            <FontAwesomeIcon
+              className={styles.usersIcon}
+              icon={faUsers}
+            />: {details?.members}
+          </p>
+          {details?.rating && (
+            <p>
+              Rating
+              <FontAwesomeIcon
+                className={styles.usersIcon}
+                icon={faUser}
+              />: {details?.rating}
+            </p>
+          )}
+          <p>
+            Type
+            <FontAwesomeIcon
+              className={styles.typeIcon}
+              icon={faArchive}
+            />: {details?.type}
+          </p>
+          {details?.status && (
+            <p>
+              Status
+              <FontAwesomeIcon
+                className={styles.waveIcon}
+                icon={faWaveSquare}
+              />
+              : {details?.status}
+            </p>
+          )}
+
+          {details?.source && (
+            <p>
+              Source
+              <FontAwesomeIcon className={styles.bulbIcon} icon={faLightbulb} />
+              : {details?.source}
+            </p>
+          )}
+          {details?.rank && (
+            <p>
+              Rank{' '}
+              <FontAwesomeIcon
+                className={styles.thermometerIcon}
+                icon={faThermometer}
+              />
+              : {details?.source}: {details?.rank}
+            </p>
+          )}
+          {details?.score && (
+            <p>
+              Score{' '}
+              <FontAwesomeIcon className={styles.starIcon} icon={faStar} />:{' '}
+              {details?.score}
+            </p>
+          )}
         </div>
       </div>
       <div className={styles.synopsis}>
