@@ -1,7 +1,15 @@
 .horizontalRow {
   display: flex;
   padding: 1rem 3rem;
+
+  /* overflow-x: hidden;
+  overflow-y: scroll; */
+  /* white-space: nowrap; */
 }
+
+/* .horizontalRow::-webkit-scrollbar {
+  display: none;
+} */
 
 .heading {
   font-size: 2rem;

@@ -40,3 +40,9 @@ body {
     transform: rotate(360deg);
   }
 }
+
+/* ::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+} */
+/* Optional: show position indicator in red */

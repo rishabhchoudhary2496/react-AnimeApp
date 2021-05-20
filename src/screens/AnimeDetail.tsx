@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, ReactElement } from 'react'
+import { useEffect, useState, useCallback, ReactElement, useRef } from 'react'
 import {
   getAnimeData,
   getAnimeCharacters,
@@ -20,6 +20,8 @@ import {
   faThermometer,
   faStar,
 } from '@fortawesome/free-solid-svg-icons'
+import { isElementAccessExpression } from 'typescript'
+var isEmpty = require('lodash.isempty')
 
 interface Match {
   match: {
@@ -74,175 +76,201 @@ interface IRecommendation {
 
 const AnimeDetail = ({ match }: Match): ReactElement => {
   const [details, setDetails] = useState<IDetails>()
+  const [loadingDetails, setLoadingDetails] = useState(true)
   const [characters, setCharacters] = useState<ICharacter[]>([])
   const [animeRecommendations, setAnimeRecommendations] = useState<
     IRecommendation[]
   >([])
 
+  const ref = useRef<HTMLSpanElement>(null)
+
   const api = useCallback(async () => {
     const data = await getAnimeData(match.params.id)
     console.log('data', data)
     setDetails(data)
-  }, [match.params.id, details])
+    setLoadingDetails(false)
+  }, [match.params.id])
 
   const getCharactersApi = useCallback(async () => {
     const data = await getAnimeCharacters(match.params.id)
     console.log('characters', data)
     setCharacters(data)
-  }, [match.params.id, characters])
+  }, [match.params.id])
 
   const fetchAnimeRecommendations = useCallback(async () => {
     const data = await getAnimeRecommendations(match.params.id)
     console.log('recommendations', data)
     setAnimeRecommendations(data)
-  }, [match.params.id, animeRecommendations])
+  }, [match.params.id])
 
   useEffect(() => {
+    console.log('called')
+    // setDetails({ aired: {}, airing: undefined })
+    setCharacters([])
+    setAnimeRecommendations([])
+  }, [match.params.id])
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current?.scrollIntoView()
+    }
     api()
     getCharactersApi()
     fetchAnimeRecommendations()
-  }, [])
+  }, [api, getCharactersApi, fetchAnimeRecommendations])
 
-  return (
-    <div className={styles.container}>
-      {details?.trailer_url !== null ? (
-        <ReactPlayer
-          url={details?.trailer_url}
-          width='100%'
-          height={300}
-        ></ReactPlayer>
-      ) : (
-        <img
-          src={'http://localhost:3000/animeHeader.jpg'}
-          width='100%'
-          height={300}
-        ></img>
-      )}
+  if (loadingDetails) {
+    return <p>loading...</p>
+  } else {
+    return (
+      <div className={styles.container}>
+        <span ref={ref}></span>
+        {details?.trailer_url !== null ? (
+          <ReactPlayer
+            url={details?.trailer_url}
+            width='100%'
+            height={300}
+          ></ReactPlayer>
+        ) : (
+          <img
+            src={'http://localhost:3000/animeHeader.jpg'}
+            width='100%'
+            height={300}
+          ></img>
+        )}
 
-      <div className={styles.flex}>
-        <img src={details?.image_url} alt='' />
-        <div className={styles.textBox}>
-          {details?.title_english && (
+        <div className={styles.flex}>
+          <img src={details?.image_url} alt='' />
+          <div className={styles.textBox}>
+            {details?.title_english && (
+              <p>
+                English Title
+                <FontAwesomeIcon
+                  className={styles.penIcon}
+                  icon={faPen}
+                />: {details?.title_english}
+              </p>
+            )}
             <p>
-              English Title
+              Title
               <FontAwesomeIcon className={styles.penIcon} icon={faPen} />:{' '}
-              {details?.title_english}
+              {details?.title}
             </p>
-          )}
-          <p>
-            Title
-            <FontAwesomeIcon className={styles.penIcon} icon={faPen} />:{' '}
-            {details?.title}
-          </p>
-          <p>
-            Favorites
-            <FontAwesomeIcon className={styles.favIcon} icon={faHeart} />:{' '}
-            {details?.favorites}
-          </p>
-          <p>
-            Members
-            <FontAwesomeIcon
-              className={styles.usersIcon}
-              icon={faUsers}
-            />: {details?.members}
-          </p>
-          {details?.rating && (
             <p>
-              Rating
+              Favorites
+              <FontAwesomeIcon
+                className={styles.favIcon}
+                icon={faHeart}
+              />: {details?.favorites}
+            </p>
+            <p>
+              Members
               <FontAwesomeIcon
                 className={styles.usersIcon}
-                icon={faUser}
-              />: {details?.rating}
+                icon={faUsers}
+              />: {details?.members}
             </p>
-          )}
-          <p>
-            Type
-            <FontAwesomeIcon
-              className={styles.typeIcon}
-              icon={faArchive}
-            />: {details?.type}
-          </p>
-          {details?.status && (
+            {details?.rating && (
+              <p>
+                Rating
+                <FontAwesomeIcon
+                  className={styles.usersIcon}
+                  icon={faUser}
+                />: {details?.rating}
+              </p>
+            )}
             <p>
-              Status
+              Type
               <FontAwesomeIcon
-                className={styles.waveIcon}
-                icon={faWaveSquare}
-              />
-              : {details?.status}
+                className={styles.typeIcon}
+                icon={faArchive}
+              />: {details?.type}
             </p>
-          )}
+            {details?.status && (
+              <p>
+                Status
+                <FontAwesomeIcon
+                  className={styles.waveIcon}
+                  icon={faWaveSquare}
+                />
+                : {details?.status}
+              </p>
+            )}
 
-          {details?.source && (
-            <p>
-              Source
-              <FontAwesomeIcon className={styles.bulbIcon} icon={faLightbulb} />
-              : {details?.source}
-            </p>
-          )}
-          {details?.rank && (
-            <p>
-              Rank{' '}
-              <FontAwesomeIcon
-                className={styles.thermometerIcon}
-                icon={faThermometer}
-              />
-              : {details?.source}: {details?.rank}
-            </p>
-          )}
-          {details?.score && (
-            <p>
-              Score{' '}
-              <FontAwesomeIcon className={styles.starIcon} icon={faStar} />:{' '}
-              {details?.score}
-            </p>
-          )}
-        </div>
-      </div>
-      <div className={styles.synopsis}>
-        <h1>Synopsis</h1>
-        <p className={styles.synopsisText}>{details?.synopsis}</p>
-      </div>
-
-      {characters?.length > 0 && (
-        <div className={styles.charactersDiv}>
-          <h1 className={styles.paddingHeading}>Characters</h1>
-          <div className={styles.horizontalRow}>
-            {characters.map((character) => (
-              <CharactersList
-                image_url={character.image_url}
-                mal_id={character.mal_id}
-                name={character.name}
-                role={character.role}
-                url={character.url}
-                voice_actors={character.voice_actors}
-                key={character.mal_id}
-              ></CharactersList>
-            ))}
+            {details?.source && (
+              <p>
+                Source
+                <FontAwesomeIcon
+                  className={styles.bulbIcon}
+                  icon={faLightbulb}
+                />
+                : {details?.source}
+              </p>
+            )}
+            {details?.rank && (
+              <p>
+                Rank{' '}
+                <FontAwesomeIcon
+                  className={styles.thermometerIcon}
+                  icon={faThermometer}
+                />
+                : {details?.source}: {details?.rank}
+              </p>
+            )}
+            {details?.score && (
+              <p>
+                Score{' '}
+                <FontAwesomeIcon className={styles.starIcon} icon={faStar} />:{' '}
+                {details?.score}
+              </p>
+            )}
           </div>
         </div>
-      )}
-
-      {animeRecommendations?.length > 0 && (
-        <div>
-          <h1 className={styles.paddingHeading}>Recommendation</h1>
-          <div className={styles.horizontalRow}>
-            {animeRecommendations.map((anime) => (
-              <RecommendationList
-                image_url={anime.image_url}
-                mal_id={anime.mal_id}
-                recommendation_count={anime.recommendation_count}
-                recommendation_url={anime.recommendation_url}
-                title={anime.title}
-                url={anime.url}
-                key={anime.mal_id}
-              ></RecommendationList>
-            ))}
-          </div>
+        <div className={styles.synopsis}>
+          <h1>Synopsis</h1>
+          <p className={styles.synopsisText}>{details?.synopsis}</p>
         </div>
-      )}
-    </div>
-  )
+
+        {characters?.length > 0 && (
+          <div className={styles.charactersDiv}>
+            <h1 className={styles.paddingHeading}>Characters</h1>
+            <div className={styles.horizontalRow}>
+              {characters.map((character) => (
+                <CharactersList
+                  image_url={character.image_url}
+                  mal_id={character.mal_id}
+                  name={character.name}
+                  role={character.role}
+                  url={character.url}
+                  voice_actors={character.voice_actors}
+                  key={character.mal_id}
+                ></CharactersList>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {animeRecommendations?.length > 0 && (
+          <div>
+            <h1 className={styles.paddingHeading}>Recommendation</h1>
+            <div className={styles.horizontalRow}>
+              {animeRecommendations.map((anime) => (
+                <RecommendationList
+                  image_url={anime.image_url}
+                  mal_id={anime.mal_id}
+                  recommendation_count={anime.recommendation_count}
+                  recommendation_url={anime.recommendation_url}
+                  title={anime.title}
+                  url={anime.url}
+                  key={anime.mal_id}
+                ></RecommendationList>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    )
+  }
 }
 
 export default AnimeDetail

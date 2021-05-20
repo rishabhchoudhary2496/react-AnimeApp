@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react'
 import styles from './Character.module.css'
+import { Link } from 'react-router-dom'
 
 interface ICharacter {
   image_url: string
@@ -19,11 +20,13 @@ const Characters = ({
   voice_actors,
 }: ICharacter): ReactElement => {
   return (
-    <div className={styles.card}>
-      <img src={image_url} alt='character'></img>
-      <p className={styles.title}>{name}</p>
-      <p className={styles.title}>{role}</p>
-    </div>
+    <Link to={`/characterDetails/${mal_id}`}>
+      <div className={styles.card}>
+        <img src={image_url} alt='character'></img>
+        <p className={styles.title}>{name}</p>
+        <p className={styles.title}>{role}</p>
+      </div>
+    </Link>
   )
 }
 

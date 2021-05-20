@@ -58,3 +58,10 @@ export const getAnimeReviews = async (animeId) => {
   let data = await response.json()
   return data.reviews
 }
+
+export const getCharacterDetail = async (characterId) => {
+  let endpoint = 'https://api.jikan.moe/v3/character/' + characterId
+  let response = await fetch(endpoint)
+  let data = await response.json()
+  return data
+}
