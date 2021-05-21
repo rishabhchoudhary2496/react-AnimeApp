@@ -8,6 +8,11 @@ import {
   getTopUpcomingAnime,
 } from '../service/animeService'
 import Card from '../components/Card'
+import FlatList from 'flatlist-react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import breakpoints from '../utils/breakpoints'
+
+// Import Swiper styles
 
 interface Anime {
   end_date: Date | null
@@ -66,100 +71,159 @@ const Home = (): ReactElement => {
     getAnimeMovies()
     getSpecials()
     getTv()
-  })
+  }, [])
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 5,
+    // slidesToScroll: 1,
+  }
 
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>Top Upcoming Anime</h1>
-      <div className={styles.horizontalRow}>
+      {/* <div className={styles.horizontalRow}> */}
+      {/* <FlatList
+          list={upcomingAnime}
+          renderItem={renderUpcomingAnime}
+          renderWhenEmpty={() => <div>List is empty!</div>}
+        /> */}
+
+      {/* </div> */}
+
+      <Swiper
+        spaceBetween={4}
+        slidesPerView={4.7}
+        breakpoints={breakpoints}
+        onSlideChange={() => console.log('slide change')}
+        onSwiper={(swiper) => console.log(swiper)}
+      >
         {upcomingAnime.map((anime) => (
-          <Card
-            end_date={anime.end_date}
-            episodes={anime.episodes}
-            image_url={anime.image_url}
-            mal_id={anime.mal_id}
-            members={anime.members}
-            rank={anime.rank}
-            score={anime.score}
-            start_date={anime.start_date}
-            title={anime.title}
-            type={anime.type}
-            url={anime.url}
-          />
+          <SwiperSlide>
+            <Card
+              end_date={anime.end_date}
+              episodes={anime.episodes}
+              image_url={anime.image_url}
+              mal_id={anime.mal_id}
+              members={anime.members}
+              rank={anime.rank}
+              score={anime.score}
+              start_date={anime.start_date}
+              title={anime.title}
+              type={anime.type}
+              url={anime.url}
+            />
+          </SwiperSlide>
         ))}
-      </div>
+      </Swiper>
       <h1 className={styles.heading}>Top Airing Anime</h1>
-      <div className={styles.horizontalRow}>
+
+      <Swiper
+        spaceBetween={4}
+        slidesPerView={4.7}
+        breakpoints={breakpoints}
+        onSlideChange={() => console.log('slide change')}
+        onSwiper={(swiper) => console.log(swiper)}
+      >
         {airingAnime.map((anime) => (
-          <Card
-            end_date={anime.end_date}
-            episodes={anime.episodes}
-            image_url={anime.image_url}
-            mal_id={anime.mal_id}
-            members={anime.members}
-            rank={anime.rank}
-            score={anime.score}
-            start_date={anime.start_date}
-            title={anime.title}
-            type={anime.type}
-            url={anime.url}
-          />
+          <SwiperSlide>
+            <Card
+              end_date={anime.end_date}
+              episodes={anime.episodes}
+              image_url={anime.image_url}
+              mal_id={anime.mal_id}
+              members={anime.members}
+              rank={anime.rank}
+              score={anime.score}
+              start_date={anime.start_date}
+              title={anime.title}
+              type={anime.type}
+              url={anime.url}
+            />
+          </SwiperSlide>
         ))}
-      </div>
+      </Swiper>
       <h1 className={styles.heading}>Top Anime Movies</h1>
-      <div className={styles.horizontalRow}>
+      <Swiper
+        spaceBetween={4}
+        slidesPerView={4.7}
+        breakpoints={breakpoints}
+        onSlideChange={() => console.log('slide change')}
+        onSwiper={(swiper) => console.log(swiper)}
+      >
         {animeMovie.map((anime) => (
-          <Card
-            end_date={anime.end_date}
-            episodes={anime.episodes}
-            image_url={anime.image_url}
-            mal_id={anime.mal_id}
-            members={anime.members}
-            rank={anime.rank}
-            score={anime.score}
-            start_date={anime.start_date}
-            title={anime.title}
-            type={anime.type}
-            url={anime.url}
-          />
+          <SwiperSlide>
+            <Card
+              end_date={anime.end_date}
+              episodes={anime.episodes}
+              image_url={anime.image_url}
+              mal_id={anime.mal_id}
+              members={anime.members}
+              rank={anime.rank}
+              score={anime.score}
+              start_date={anime.start_date}
+              title={anime.title}
+              type={anime.type}
+              url={anime.url}
+            />
+          </SwiperSlide>
         ))}
-      </div>
+      </Swiper>
       <h1 className={styles.heading}>Top Specials</h1>
-      <div className={styles.horizontalRow}>
+      <Swiper
+        spaceBetween={4}
+        slidesPerView={4.7}
+        breakpoints={breakpoints}
+        onSlideChange={() => console.log('slide change')}
+        onSwiper={(swiper) => console.log(swiper)}
+      >
         {topSpecials.map((anime) => (
-          <Card
-            end_date={anime.end_date}
-            episodes={anime.episodes}
-            image_url={anime.image_url}
-            mal_id={anime.mal_id}
-            members={anime.members}
-            rank={anime.rank}
-            score={anime.score}
-            start_date={anime.start_date}
-            title={anime.title}
-            type={anime.type}
-            url={anime.url}
-          />
+          <SwiperSlide>
+            <Card
+              end_date={anime.end_date}
+              episodes={anime.episodes}
+              image_url={anime.image_url}
+              mal_id={anime.mal_id}
+              members={anime.members}
+              rank={anime.rank}
+              score={anime.score}
+              start_date={anime.start_date}
+              title={anime.title}
+              type={anime.type}
+              url={anime.url}
+            />
+          </SwiperSlide>
         ))}
-      </div>
+      </Swiper>
       <h1 className={styles.heading}>Top TV</h1>
-      <div className={styles.horizontalRow}>
+
+      <Swiper
+        spaceBetween={4}
+        slidesPerView={4.7}
+        breakpoints={breakpoints}
+        onSlideChange={() => console.log('slide change')}
+        onSwiper={(swiper) => console.log(swiper)}
+      >
         {topTv.map((anime) => (
-          <Card
-            end_date={anime.end_date}
-            episodes={anime.episodes}
-            image_url={anime.image_url}
-            mal_id={anime.mal_id}
-            members={anime.members}
-            rank={anime.rank}
-            score={anime.score}
-            start_date={anime.start_date}
-            title={anime.title}
-            type={anime.type}
-            url={anime.url}
-          />
+          <SwiperSlide>
+            <Card
+              end_date={anime.end_date}
+              episodes={anime.episodes}
+              image_url={anime.image_url}
+              mal_id={anime.mal_id}
+              members={anime.members}
+              rank={anime.rank}
+              score={anime.score}
+              start_date={anime.start_date}
+              title={anime.title}
+              type={anime.type}
+              url={anime.url}
+            />
+          </SwiperSlide>
         ))}
-      </div>
+      </Swiper>
     </div>
   )
 }

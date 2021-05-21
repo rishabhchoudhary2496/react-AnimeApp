@@ -16,6 +16,7 @@
     "@types/react": "^17.0.6",
     "@types/react-dom": "^17.0.5",
     "@types/react-router-dom": "^5.1.7",
+    "flatlist-react": "^1.5.0",
     "lodash.isempty": "^4.4.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -23,6 +24,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "sanitize-html": "^2.3.3",
+    "slick-carousel": "^1.8.1",
+    "swiper": "^6.6.2",
     "typescript": "^4.2.4",
     "web-vitals": "^1.1.2"
   },
@@ -51,6 +54,8 @@
     ]
   },
   "devDependencies": {
+    "@types/react-slick": "^0.23.4",
+    "@types/react-virtualized": "^9.21.11",
     "@types/sanitize-html": "^2.3.1"
   }
 }

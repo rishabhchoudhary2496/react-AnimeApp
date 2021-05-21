@@ -20,13 +20,13 @@ const Characters = ({
   voice_actors,
 }: ICharacter): ReactElement => {
   return (
-    <Link to={`/characterDetails/${mal_id}`}>
-      <div className={styles.card}>
+    <div className={styles.card}>
+      <Link to={`/characterDetails/${mal_id}`}>
         <img src={image_url} alt='character'></img>
         <p className={styles.title}>{name}</p>
         <p className={styles.title}>{role}</p>
-      </div>
-    </Link>
+      </Link>
+    </div>
   )
 }
 

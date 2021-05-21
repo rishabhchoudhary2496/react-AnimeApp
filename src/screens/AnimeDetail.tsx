@@ -20,8 +20,8 @@ import {
   faThermometer,
   faStar,
 } from '@fortawesome/free-solid-svg-icons'
-import { isElementAccessExpression } from 'typescript'
-var isEmpty = require('lodash.isempty')
+import { Swiper, SwiperSlide } from 'swiper/react'
+import breakpoints from '../utils/breakpoints'
 
 interface Match {
   match: {
@@ -226,46 +226,64 @@ const AnimeDetail = ({ match }: Match): ReactElement => {
             )}
           </div>
         </div>
-        <div className={styles.synopsis}>
-          <h1>Synopsis</h1>
-          <p className={styles.synopsisText}>{details?.synopsis}</p>
-        </div>
+        {details?.synopsis && (
+          <div className={styles.synopsis}>
+            <h1>Synopsis</h1>
+            <p className={styles.synopsisText}>{details?.synopsis}</p>
+          </div>
+        )}
 
         {characters?.length > 0 && (
           <div className={styles.charactersDiv}>
             <h1 className={styles.paddingHeading}>Characters</h1>
-            <div className={styles.horizontalRow}>
+            <Swiper
+              spaceBetween={4}
+              slidesPerView={4.7}
+              breakpoints={breakpoints}
+              onSlideChange={() => console.log('slide change')}
+              onSwiper={(swiper) => console.log(swiper)}
+            >
               {characters.map((character) => (
-                <CharactersList
-                  image_url={character.image_url}
-                  mal_id={character.mal_id}
-                  name={character.name}
-                  role={character.role}
-                  url={character.url}
-                  voice_actors={character.voice_actors}
-                  key={character.mal_id}
-                ></CharactersList>
+                <SwiperSlide>
+                  <CharactersList
+                    image_url={character.image_url}
+                    mal_id={character.mal_id}
+                    name={character.name}
+                    role={character.role}
+                    url={character.url}
+                    voice_actors={character.voice_actors}
+                    key={character.mal_id}
+                  ></CharactersList>
+                </SwiperSlide>
               ))}
-            </div>
+            </Swiper>
           </div>
         )}
 
         {animeRecommendations?.length > 0 && (
           <div>
             <h1 className={styles.paddingHeading}>Recommendation</h1>
-            <div className={styles.horizontalRow}>
+            <Swiper
+              spaceBetween={4}
+              slidesPerView={4.7}
+              breakpoints={breakpoints}
+              onSlideChange={() => console.log('slide change')}
+              onSwiper={(swiper) => console.log(swiper)}
+            >
               {animeRecommendations.map((anime) => (
-                <RecommendationList
-                  image_url={anime.image_url}
-                  mal_id={anime.mal_id}
-                  recommendation_count={anime.recommendation_count}
-                  recommendation_url={anime.recommendation_url}
-                  title={anime.title}
-                  url={anime.url}
-                  key={anime.mal_id}
-                ></RecommendationList>
+                <SwiperSlide>
+                  <RecommendationList
+                    image_url={anime.image_url}
+                    mal_id={anime.mal_id}
+                    recommendation_count={anime.recommendation_count}
+                    recommendation_url={anime.recommendation_url}
+                    title={anime.title}
+                    url={anime.url}
+                    key={anime.mal_id}
+                  ></RecommendationList>
+                </SwiperSlide>
               ))}
-            </div>
+            </Swiper>
           </div>
         )}
       </div>

@@ -2,16 +2,21 @@
   margin: 1rem 1rem;
   padding: 1rem 1rem;
   transition: all 0.3s;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ddd; */
   border-radius: 4px;
-  cursor: pointer;
+  /* cursor: pointer; */
   text-decoration: none;
-  max-width: 225px;
+  width: 225px;
+  -webkit-overflow-scrolling: touch;
+  background: rgba(255, 255, 255, 0.4);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 }
 
 .card:hover {
-  transform: scale(1.1);
-  border-color: #3498db;
+  /* transform: scale(1.03); */
+  /* border-color: #3498db; */
+  background: rgba(255, 255, 255, 0.6);
 }
 
 .title {

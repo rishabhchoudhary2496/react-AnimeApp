@@ -19,12 +19,12 @@ const Recommendation = ({
   url,
 }: IRecommendation): ReactElement => {
   return (
-    <Link to={`/animeDetails/${mal_id}`}>
-      <div className={styles.card}>
+    <div className={styles.card}>
+      <Link to={`/animeDetails/${mal_id}`}>
         <img src={image_url} alt='anime'></img>
         <p className={styles.title}>{title}</p>
-      </div>
-    </Link>
+      </Link>
+    </div>
   )
 }
 

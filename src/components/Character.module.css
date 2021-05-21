@@ -2,7 +2,10 @@
   margin: 1rem 1rem;
   padding: 1rem 1rem;
   transition: all 0.3s;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ddd; */
+  background: rgba(255, 255, 255, 0.4);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   border-radius: 4px;
   cursor: pointer;
   text-decoration: none;
@@ -10,8 +13,7 @@
 }
 
 .card:hover {
-  transform: scale(1.1);
-  border-color: #3498db;
+  background: rgba(255, 255, 255, 0.6);
 }
 
 .title {

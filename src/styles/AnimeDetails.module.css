@@ -3,7 +3,19 @@
 }
 
 .horizontalRow {
+  padding: 1rem 0rem;
   display: flex;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.horizontalRow::-webkit-scrollbar {
+  background: transparent;
+}
+
+.horizontalRow::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  /* border-radius: 10px; */
 }
 
 .paddingHeading {

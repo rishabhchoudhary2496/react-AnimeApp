@@ -31,8 +31,8 @@ const Card = ({
   url,
 }: CardProps): ReactElement => {
   return (
-    <Link to={`/animeDetails/${mal_id}`}>
-      <div className={styles.card}>
+    <div className={styles.card}>
+      <Link to={`/animeDetails/${mal_id}`}>
         <img src={image_url} alt='poster'></img>
         <p className={styles.title}>{title}</p>
         {start_date && <p className={styles.startDate}>Airing {start_date}</p>}
@@ -43,8 +43,8 @@ const Card = ({
             {score}
           </p>
         )}
-      </div>
-    </Link>
+      </Link>
+    </div>
   )
 }
 
