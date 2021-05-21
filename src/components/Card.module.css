@@ -46,3 +46,13 @@ a {
   margin: 0px 5px;
   color: #fbc531;
 }
+.calendarIcon {
+  margin: 0px 6px;
+  color: #9b59b6;
+}
+
+.placeholder {
+  height: 300px;
+  background-color: tomato;
+  width: 225px;
+}

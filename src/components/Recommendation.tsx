@@ -1,4 +1,4 @@
-import { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
 import styles from './Character.module.css'
 import { Link } from 'react-router-dom'
 
@@ -18,10 +18,19 @@ const Recommendation = ({
   title,
   url,
 }: IRecommendation): ReactElement => {
+  const [imgLoaded, setImageLoaded] = useState(false)
   return (
     <div className={styles.card}>
       <Link to={`/animeDetails/${mal_id}`}>
-        <img src={image_url} alt='anime'></img>
+        <img
+          src={image_url}
+          alt='anime'
+          width={'100%'}
+          height='auto'
+          onLoad={() => {
+            setImageLoaded(true)
+          }}
+        ></img>
         <p className={styles.title}>{title}</p>
       </Link>
     </div>

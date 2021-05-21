@@ -22,6 +22,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import breakpoints from '../utils/breakpoints'
+import Loader from 'react-loader-spinner'
 
 interface Match {
   match: {
@@ -120,7 +121,17 @@ const AnimeDetail = ({ match }: Match): ReactElement => {
   }, [api, getCharactersApi, fetchAnimeRecommendations])
 
   if (loadingDetails) {
-    return <p>loading...</p>
+    return (
+      <div className={styles.loadingContainer}>
+        <Loader
+          type='Circles'
+          color='#474787'
+          height={100}
+          width={100}
+          timeout={3000} //3 secs
+        />
+      </div>
+    )
   } else {
     return (
       <div className={styles.container}>
@@ -140,7 +151,9 @@ const AnimeDetail = ({ match }: Match): ReactElement => {
         )}
 
         <div className={styles.flex}>
-          <img src={details?.image_url} alt='' />
+          <div>
+            <img src={details?.image_url} alt='' />
+          </div>
           <div className={styles.textBox}>
             {details?.title_english && (
               <p>

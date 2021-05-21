@@ -1,8 +1,8 @@
-import { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
 import styles from './Card.module.css'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar } from '@fortawesome/free-solid-svg-icons'
+import { faStar, faCalendar } from '@fortawesome/free-solid-svg-icons'
 interface CardProps {
   end_date: Date | null
   episodes: Number | null
@@ -30,12 +30,37 @@ const Card = ({
   type,
   url,
 }: CardProps): ReactElement => {
+  const [imgLoaded, setImageLoaded] = useState(false)
   return (
     <div className={styles.card}>
       <Link to={`/animeDetails/${mal_id}`}>
-        <img src={image_url} alt='poster'></img>
+        <img
+          style={
+            imgLoaded
+              ? {}
+              : {
+                  backgroundColor: 'transparent',
+                }
+          }
+          src={image_url}
+          width={'100%'}
+          height='auto'
+          alt='poster'
+          onLoad={() => {
+            setImageLoaded(true)
+          }}
+        ></img>
         <p className={styles.title}>{title}</p>
-        {start_date && <p className={styles.startDate}>Airing {start_date}</p>}
+        {start_date && (
+          <p className={styles.startDate}>
+            <FontAwesomeIcon
+              className={styles.calendarIcon}
+              icon={faCalendar}
+            />
+            {''}
+            Airing {start_date}
+          </p>
+        )}
         {score > 0 && (
           <p className={styles.score}>
             {' '}

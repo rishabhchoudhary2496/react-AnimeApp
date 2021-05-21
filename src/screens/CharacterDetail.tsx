@@ -1,7 +1,7 @@
 import { useCallback, useState, useEffect } from 'react'
 import { getCharacterDetail } from '../service/animeService'
-import sanitizeHtml from 'sanitize-html'
-
+import styles from '../styles/CharacterDetails.module.css'
+import Loader from 'react-loader-spinner'
 interface Match {
   match: {
     params: {
@@ -26,17 +26,70 @@ interface ICharacter {
 
 const CharacterDetail = ({ match }: Match) => {
   const [characterDetail, setCharacterDetail] = useState<ICharacter>()
+  const [loading, setLoading] = useState(false)
+  const [imgLoaded, setImageLoaded] = useState(false)
 
   const characterApi = useCallback(async () => {
+    setLoading(true)
     const data = await getCharacterDetail(match.params.id)
+    setLoading(false)
+    console.log('data', data)
     setCharacterDetail(data)
   }, [match.params.id])
 
+  const formatted = characterDetail?.about.replaceAll('\n', '<br>')
+
+  console.log('imgLoaded', imgLoaded)
   useEffect(() => {
     characterApi()
   }, [])
 
-  return <div>{/* <p>{}</p> */}</div>
+  if (loading) {
+    return (
+      <div className={styles.loadingContainer}>
+        <Loader
+          type='Circles'
+          color='#474787'
+          height={100}
+          width={100}
+          timeout={3000} //3 secs
+        />
+      </div>
+    )
+  } else {
+    return (
+      <div className={styles.container}>
+        <h1>About</h1>
+        <div className={styles.profile}>
+          <img
+            style={imgLoaded ? {} : { display: 'none' }}
+            src={characterDetail?.image_url}
+            width={225}
+            height={317}
+            alt=''
+            onLoad={() => {
+              setImageLoaded(true)
+            }}
+          />
+
+          <p className={styles.name}>
+            {characterDetail?.name} ({characterDetail?.name_kanji})
+          </p>
+        </div>
+
+        <div className={styles.aboutBox}>
+          <p>
+            {characterDetail?.about.split('\\n').map((item, index) => (
+              <span key={index}>
+                {item}
+                <br />
+              </span>
+            ))}
+          </p>
+        </div>
+      </div>
+    )
+  }
 }
 
 export default CharacterDetail
