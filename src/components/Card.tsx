@@ -3,6 +3,7 @@ import styles from './Card.module.css'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar, faCalendar } from '@fortawesome/free-solid-svg-icons'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 interface CardProps {
   end_date: Date | null
   episodes: Number | null
@@ -30,26 +31,16 @@ const Card = ({
   type,
   url,
 }: CardProps): ReactElement => {
-  const [imgLoaded, setImageLoaded] = useState(false)
   return (
     <div className={styles.card}>
       <Link to={`/animeDetails/${mal_id}`}>
-        <img
-          style={
-            imgLoaded
-              ? {}
-              : {
-                  backgroundColor: 'transparent',
-                }
-          }
+        <LazyLoadImage
+          effect='blur'
           src={image_url}
-          width={'100%'}
-          height='auto'
+          height={317}
+          className={styles.img}
           alt='poster'
-          onLoad={() => {
-            setImageLoaded(true)
-          }}
-        ></img>
+        ></LazyLoadImage>
         <p className={styles.title}>{title}</p>
         {start_date && (
           <p className={styles.startDate}>

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
+import 'react-lazy-load-image-component/src/effects/blur.css'
 import 'swiper/swiper-bundle.css'
 import reportWebVitals from './reportWebVitals'
 

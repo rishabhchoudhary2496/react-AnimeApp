@@ -22,3 +22,8 @@
   text-decoration: none;
   font-family: 'Montserrat', sans-serif;
 }
+
+.img {
+  width: 100%; /* or max-width: 100%; */
+  height: auto;
+}

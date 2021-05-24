@@ -22,8 +22,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import breakpoints from '../utils/breakpoints'
-import Loader from 'react-loader-spinner'
-
+import LoadingSpinner from '../components/Loader'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 interface Match {
   match: {
     params: {
@@ -37,12 +37,12 @@ interface IDetails {
   airing: boolean
   broadcast: string
   duration: string
-  episodes: number
-  favorites: number
+  episodes: string
+  favorites: string
   genres: Array<object>
   image_url: string
-  members: number
-  popularity: number
+  members: string
+  popularity: string
   premiered: string
   rating: string
   source: string
@@ -53,8 +53,8 @@ interface IDetails {
   trailer_url: string
   type: string
   url: string
-  rank: number
-  score: number
+  rank: string
+  score: string
 }
 
 interface ICharacter {
@@ -73,6 +73,31 @@ interface IRecommendation {
   recommendation_url: string
   title: string
   url: string
+}
+
+const emptyDetails: IDetails = {
+  aired: {},
+  airing: false,
+  broadcast: '',
+  duration: '',
+  episodes: '',
+  favorites: '',
+  genres: [],
+  image_url: '',
+  members: '',
+  popularity: '',
+  premiered: '',
+  rating: '',
+  source: '',
+  status: '',
+  synopsis: '',
+  title: '',
+  title_english: '',
+  trailer_url: '',
+  type: '',
+  url: '',
+  rank: '',
+  score: '',
 }
 
 const AnimeDetail = ({ match }: Match): ReactElement => {
@@ -106,7 +131,7 @@ const AnimeDetail = ({ match }: Match): ReactElement => {
 
   useEffect(() => {
     console.log('called')
-    // setDetails({ aired: {}, airing: undefined })
+    setDetails(emptyDetails)
     setCharacters([])
     setAnimeRecommendations([])
   }, [match.params.id])
@@ -123,13 +148,7 @@ const AnimeDetail = ({ match }: Match): ReactElement => {
   if (loadingDetails) {
     return (
       <div className={styles.loadingContainer}>
-        <Loader
-          type='Circles'
-          color='#474787'
-          height={100}
-          width={100}
-          timeout={3000} //3 secs
-        />
+        <LoadingSpinner />
       </div>
     )
   } else {
@@ -151,8 +170,10 @@ const AnimeDetail = ({ match }: Match): ReactElement => {
         )}
 
         <div className={styles.flex}>
-          <div>
-            <img src={details?.image_url} alt='' />
+          <div style={{ width: '225px' }}>
+            {details?.image_url && (
+              <LazyLoadImage effect='blur' src={details?.image_url} alt='' />
+            )}
           </div>
           <div className={styles.textBox}>
             {details?.title_english && (
@@ -164,25 +185,36 @@ const AnimeDetail = ({ match }: Match): ReactElement => {
                 />: {details?.title_english}
               </p>
             )}
-            <p>
-              Title
-              <FontAwesomeIcon className={styles.penIcon} icon={faPen} />:{' '}
-              {details?.title}
-            </p>
-            <p>
-              Favorites
-              <FontAwesomeIcon
-                className={styles.favIcon}
-                icon={faHeart}
-              />: {details?.favorites}
-            </p>
-            <p>
-              Members
-              <FontAwesomeIcon
-                className={styles.usersIcon}
-                icon={faUsers}
-              />: {details?.members}
-            </p>
+            {details?.title && (
+              <p>
+                Title
+                <FontAwesomeIcon
+                  className={styles.penIcon}
+                  icon={faPen}
+                />: {details?.title}
+              </p>
+            )}
+
+            {details?.favorites && (
+              <p>
+                Favorites
+                <FontAwesomeIcon
+                  className={styles.favIcon}
+                  icon={faHeart}
+                />: {details?.favorites}
+              </p>
+            )}
+
+            {details?.members && (
+              <p>
+                Members
+                <FontAwesomeIcon
+                  className={styles.usersIcon}
+                  icon={faUsers}
+                />: {details?.members}
+              </p>
+            )}
+
             {details?.rating && (
               <p>
                 Rating
@@ -192,13 +224,14 @@ const AnimeDetail = ({ match }: Match): ReactElement => {
                 />: {details?.rating}
               </p>
             )}
-            <p>
-              Type
-              <FontAwesomeIcon
-                className={styles.typeIcon}
-                icon={faArchive}
-              />: {details?.type}
-            </p>
+            {details?.type && (
+              <p>
+                Type
+                <FontAwesomeIcon className={styles.typeIcon} icon={faArchive} />
+                : {details?.type}
+              </p>
+            )}
+
             {details?.status && (
               <p>
                 Status
@@ -227,7 +260,7 @@ const AnimeDetail = ({ match }: Match): ReactElement => {
                   className={styles.thermometerIcon}
                   icon={faThermometer}
                 />
-                : {details?.source}: {details?.rank}
+                : {details?.rank}
               </p>
             )}
             {details?.score && (

@@ -1,7 +1,7 @@
 import React, { ReactElement, useState } from 'react'
 import styles from './Character.module.css'
 import { Link } from 'react-router-dom'
-
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 interface ICharacter {
   image_url: string
   mal_id: string
@@ -19,19 +19,16 @@ const Characters = ({
   url,
   voice_actors,
 }: ICharacter): ReactElement => {
-  const [imgLoaded, setImageLoaded] = useState(false)
   return (
     <div className={styles.card}>
       <Link to={`/characterDetails/${mal_id}`}>
-        <img
+        <LazyLoadImage
+          effect='blur'
           src={image_url}
-          width={'100%'}
-          height='auto'
+          className={styles.img}
+          height={317}
           alt='character'
-          onLoad={() => {
-            setImageLoaded(true)
-          }}
-        ></img>
+        ></LazyLoadImage>
         <p className={styles.title}>{name}</p>
         <p className={styles.title}>{role}</p>
       </Link>

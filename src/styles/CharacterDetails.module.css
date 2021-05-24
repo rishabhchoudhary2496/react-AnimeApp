@@ -1,15 +1,19 @@
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 100%;
   margin-top: 1rem;
   margin-bottom: 0.5rem;
 }
+.flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .aboutBox {
-  padding: 0rem 2rem;
-  line-height: 1.7rem;
+  padding: 0rem 1.5rem;
+  line-height: 1.6rem;
   font-size: 1.1rem;
+  /* background-color: red; */
 }
 
 p {
@@ -24,6 +28,7 @@ p {
   /* cursor: pointer; */
   text-decoration: none;
   width: 225px;
+  height: auto;
   background: rgba(255, 255, 255, 0.4);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -49,4 +54,26 @@ h1 {
   justify-content: center;
   align-items: center;
   height: 100vh;
+}
+
+.pictureBox {
+  /* background-color: red; */
+  padding: 0rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.picture {
+  padding: 1rem 1rem;
+  transition: all 0.3s;
+  /* border: 1px solid #ddd; */
+  border-radius: 4px;
+  height: auto;
+  background: rgba(255, 255, 255, 0.4);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.img {
+  width: 100%;
+  height: auto;
 }

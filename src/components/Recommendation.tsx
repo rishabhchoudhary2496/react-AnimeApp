@@ -1,7 +1,7 @@
 import { ReactElement, useState } from 'react'
 import styles from './Character.module.css'
 import { Link } from 'react-router-dom'
-
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 interface IRecommendation {
   image_url: string
   mal_id: string
@@ -18,19 +18,16 @@ const Recommendation = ({
   title,
   url,
 }: IRecommendation): ReactElement => {
-  const [imgLoaded, setImageLoaded] = useState(false)
   return (
     <div className={styles.card}>
       <Link to={`/animeDetails/${mal_id}`}>
-        <img
+        <LazyLoadImage
+          effect='blur'
           src={image_url}
+          className={styles.img}
+          height={317}
           alt='anime'
-          width={'100%'}
-          height='auto'
-          onLoad={() => {
-            setImageLoaded(true)
-          }}
-        ></img>
+        ></LazyLoadImage>
         <p className={styles.title}>{title}</p>
       </Link>
     </div>

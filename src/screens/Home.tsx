@@ -11,6 +11,8 @@ import Card from '../components/Card'
 import FlatList from 'flatlist-react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import breakpoints from '../utils/breakpoints'
+import LoadingSpinner from '../components/Loader'
+import Skeleton from '../components/Skeleton'
 
 // Import Swiper styles
 
@@ -30,38 +32,53 @@ interface Anime {
 
 const Home = (): ReactElement => {
   const [upcomingAnime, setUpcomingAnime] = useState<Anime[]>([])
+  const [loadingUpcomingAnime, setLoadingUpcomingAnime] = useState(false)
   const [airingAnime, setAiringAnime] = useState<Anime[]>([])
+  const [loadingAiringAnime, setLoadingAiringAnime] = useState(false)
   const [animeMovie, setAnimeMovies] = useState<Anime[]>([])
+  const [loadingAnimeMovie, setLoadingAnimeMovie] = useState(false)
   const [topSpecials, setTopSpecials] = useState<Anime[]>([])
+  const [loadingSpecials, setLoadingSpecials] = useState(false)
   const [topTv, setTopTv] = useState<Anime[]>([])
+  const [loadingTv, setLoadingTv] = useState(false)
 
   const getUpcomingAnime = useCallback(async () => {
+    setLoadingUpcomingAnime(true)
     const data = await getTopUpcomingAnime()
     setUpcomingAnime(data)
+    setLoadingUpcomingAnime(false)
     console.log('upcomingAnime', upcomingAnime)
   }, [upcomingAnime])
 
   const getAiringAnime = useCallback(async () => {
+    setLoadingAiringAnime(true)
     const data = await getTopAiringAnime()
     setAiringAnime(data)
+    setLoadingAiringAnime(false)
     console.log('airingAnime', airingAnime)
   }, [airingAnime])
 
   const getAnimeMovies = useCallback(async () => {
+    setLoadingAnimeMovie(true)
     const data = await getTopAnimeMovies()
     setAnimeMovies(data)
+    setLoadingAnimeMovie(false)
     console.log('animeMovies', animeMovie)
   }, [animeMovie])
 
   const getSpecials = useCallback(async () => {
+    setLoadingSpecials(true)
     const data = await getTopSpecials()
     setTopSpecials(data)
+    setLoadingSpecials(false)
     console.log('specials', topSpecials)
   }, [topSpecials])
 
   const getTv = useCallback(async () => {
+    setLoadingTv(true)
     const data = await getTopTv()
     setTopTv(data)
+    setLoadingTv(false)
     console.log('tv', topTv)
   }, [topTv])
 
@@ -84,14 +101,17 @@ const Home = (): ReactElement => {
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>Top Upcoming Anime</h1>
-      {/* <div className={styles.horizontalRow}> */}
-      {/* <FlatList
-          list={upcomingAnime}
-          renderItem={renderUpcomingAnime}
-          renderWhenEmpty={() => <div>List is empty!</div>}
-        /> */}
 
-      {/* </div> */}
+      {loadingUpcomingAnime && (
+        <div className={styles.horizontalRow}>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+        </div>
+      )}
 
       <Swiper
         spaceBetween={4}
@@ -119,6 +139,16 @@ const Home = (): ReactElement => {
         ))}
       </Swiper>
       <h1 className={styles.heading}>Top Airing Anime</h1>
+      {loadingAiringAnime && (
+        <div className={styles.horizontalRow}>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+        </div>
+      )}
 
       <Swiper
         spaceBetween={4}
@@ -146,6 +176,16 @@ const Home = (): ReactElement => {
         ))}
       </Swiper>
       <h1 className={styles.heading}>Top Anime Movies</h1>
+      {loadingAnimeMovie && (
+        <div className={styles.horizontalRow}>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+        </div>
+      )}
       <Swiper
         spaceBetween={4}
         slidesPerView={4.7}
@@ -172,6 +212,16 @@ const Home = (): ReactElement => {
         ))}
       </Swiper>
       <h1 className={styles.heading}>Top Specials</h1>
+      {loadingSpecials && (
+        <div className={styles.horizontalRow}>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+        </div>
+      )}
       <Swiper
         spaceBetween={4}
         slidesPerView={4.7}
@@ -198,6 +248,16 @@ const Home = (): ReactElement => {
         ))}
       </Swiper>
       <h1 className={styles.heading}>Top TV</h1>
+      {loadingTv && (
+        <div className={styles.horizontalRow}>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+          <Skeleton></Skeleton>
+        </div>
+      )}
 
       <Swiper
         spaceBetween={4}
