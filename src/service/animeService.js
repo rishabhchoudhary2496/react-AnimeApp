@@ -7,7 +7,7 @@ export const getTopUpcomingAnime = async () => {
 export const getTopAiringAnime = async () => {
   let response = await fetch('https://api.jikan.moe/v3/top/anime/1/airing')
   let data = await response.json()
-  console.log('data', data)
+
   return data.top
 }
 
