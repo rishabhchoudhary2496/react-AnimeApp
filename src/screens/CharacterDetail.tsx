@@ -8,6 +8,7 @@ import LoadingSpinner from '../components/Loader'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import breakpoints from '../utils/breakpoints'
+import { Link } from 'react-router-dom'
 interface Match {
   match: {
     params: {
@@ -137,16 +138,18 @@ const CharacterDetail = ({ match }: Match) => {
                 {characterDetail?.animeography.map((animeCharacter) => (
                   <SwiperSlide>
                     <div className={styles.profile}>
-                      <LazyLoadImage
-                        effect='blur'
-                        src={animeCharacter?.image_url}
-                        className={styles.img}
-                        height={317}
-                        width={225}
-                        alt=''
-                      />
-                      <p className={styles.name}>{animeCharacter?.name}</p>
-                      <p className={styles.name}>{animeCharacter?.role}</p>
+                      <Link to={`/animeDetails/${animeCharacter?.mal_id}`}>
+                        <LazyLoadImage
+                          effect='blur'
+                          src={animeCharacter?.image_url}
+                          className={styles.img}
+                          height={317}
+                          width={225}
+                          alt=''
+                        />
+                        <p className={styles.name}>{animeCharacter?.name}</p>
+                        <p className={styles.name}>{animeCharacter?.role}</p>
+                      </Link>
                     </div>
                   </SwiperSlide>
                 ))}

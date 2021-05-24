@@ -162,11 +162,7 @@ const AnimeDetail = ({ match }: Match): ReactElement => {
             height={300}
           ></ReactPlayer>
         ) : (
-          <img
-            src={'http://localhost:3000/animeHeader.jpg'}
-            width='100%'
-            height={300}
-          ></img>
+          <img src={'/animeHeader.jpg'} width='100%' height={300}></img>
         )}
 
         <div className={styles.flex}>
