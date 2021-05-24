@@ -69,13 +69,12 @@ const CharacterDetail = ({ match }: Match) => {
     setLoading(true)
     const data = await getCharacterDetail(match.params.id)
     setLoading(false)
-    console.log('data', data)
     setCharacterDetail(data)
   }, [match.params.id])
 
   const characterPicturesApi = useCallback(async () => {
     const data = await getCharacterPictures(match.params.id)
-    console.log('d', data)
+
     setPictures(data)
   }, [[match.params.id]])
 

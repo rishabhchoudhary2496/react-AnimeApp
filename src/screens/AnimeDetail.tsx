@@ -112,25 +112,22 @@ const AnimeDetail = ({ match }: Match): ReactElement => {
 
   const api = useCallback(async () => {
     const data = await getAnimeData(match.params.id)
-    console.log('data', data)
+
     setDetails(data)
     setLoadingDetails(false)
   }, [match.params.id])
 
   const getCharactersApi = useCallback(async () => {
     const data = await getAnimeCharacters(match.params.id)
-    console.log('characters', data)
     setCharacters(data)
   }, [match.params.id])
 
   const fetchAnimeRecommendations = useCallback(async () => {
     const data = await getAnimeRecommendations(match.params.id)
-    console.log('recommendations', data)
     setAnimeRecommendations(data)
   }, [match.params.id])
 
   useEffect(() => {
-    console.log('called')
     setDetails(emptyDetails)
     setCharacters([])
     setAnimeRecommendations([])

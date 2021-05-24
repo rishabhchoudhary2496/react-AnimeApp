@@ -48,7 +48,6 @@ const Home = (): ReactElement => {
     const data = await getTopUpcomingAnime()
     setUpcomingAnime(data)
     setLoadingUpcomingAnime(false)
-    console.log('upcomingAnime', upcomingAnime)
   }, [upcomingAnime])
 
   const getAiringAnime = useCallback(async () => {
@@ -56,7 +55,6 @@ const Home = (): ReactElement => {
     const data = await getTopAiringAnime()
     setAiringAnime(data)
     setLoadingAiringAnime(false)
-    console.log('airingAnime', airingAnime)
   }, [airingAnime])
 
   const getAnimeMovies = useCallback(async () => {
@@ -64,7 +62,6 @@ const Home = (): ReactElement => {
     const data = await getTopAnimeMovies()
     setAnimeMovies(data)
     setLoadingAnimeMovie(false)
-    console.log('animeMovies', animeMovie)
   }, [animeMovie])
 
   const getSpecials = useCallback(async () => {
@@ -72,7 +69,6 @@ const Home = (): ReactElement => {
     const data = await getTopSpecials()
     setTopSpecials(data)
     setLoadingSpecials(false)
-    console.log('specials', topSpecials)
   }, [topSpecials])
 
   const getTv = useCallback(async () => {
@@ -80,7 +76,6 @@ const Home = (): ReactElement => {
     const data = await getTopTv()
     setTopTv(data)
     setLoadingTv(false)
-    console.log('tv', topTv)
   }, [topTv])
 
   useEffect(() => {

@@ -13,7 +13,6 @@ const Search = () => {
     e.preventDefault()
     setLoading(true)
     const data = await searchAnime(value)
-    console.log('da--ta', data)
     setValue('')
     setLoading(false)
 

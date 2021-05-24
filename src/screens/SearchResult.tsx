@@ -28,7 +28,6 @@ const SearchResult = () => {
   const location = useLocation()
 
   const result = location.state as Idata
-  console.log('data', result?.data)
 
   if (!result?.data) {
     return (
