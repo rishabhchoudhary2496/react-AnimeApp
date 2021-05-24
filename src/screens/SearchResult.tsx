@@ -30,33 +30,43 @@ const SearchResult = () => {
   const result = location.state as Idata
   console.log('data', result?.data)
 
-  return (
-    <div className={styles.container}>
-      <Search />
-      <h2 style={{ textAlign: 'center' }}>Search Result</h2>
-      <div className={styles['flex-grid']}>
-        {result?.data.map((anime) => (
-          <div className={styles['col']}>
-            <ResultCard
-              airing={anime?.airing}
-              end_date={anime?.end_date}
-              episodes={anime?.episodes}
-              image_url={anime?.image_url}
-              mal_id={anime?.mal_id}
-              members={anime?.members}
-              rated={anime?.rated}
-              score={anime?.score}
-              start_date={moment(anime?.start_date).format('MMMM Do YYYY')}
-              synopsis={anime?.synopsis}
-              title={anime?.title}
-              type={anime?.type}
-              url={anime.url}
-            />
-          </div>
-        ))}
+  if (!result?.data) {
+    return (
+      <div className={styles.container}>
+        <Search />
+        <h2 style={{ textAlign: 'center' }}>No Result Found</h2>
       </div>
-    </div>
-  )
+    )
+  } else {
+    return (
+      <div className={styles.container}>
+        <Search />
+        <h2 style={{ textAlign: 'center' }}>Search Result</h2>
+        <div className={styles['flex-grid']}>
+          {result &&
+            result?.data?.map((anime) => (
+              <div className={styles['col']}>
+                <ResultCard
+                  airing={anime?.airing}
+                  end_date={anime?.end_date}
+                  episodes={anime?.episodes}
+                  image_url={anime?.image_url}
+                  mal_id={anime?.mal_id}
+                  members={anime?.members}
+                  rated={anime?.rated}
+                  score={anime?.score}
+                  start_date={moment(anime?.start_date).format('MMMM Do YYYY')}
+                  synopsis={anime?.synopsis}
+                  title={anime?.title}
+                  type={anime?.type}
+                  url={anime.url}
+                />
+              </div>
+            ))}
+        </div>
+      </div>
+    )
+  }
 }
 
 export default SearchResult
