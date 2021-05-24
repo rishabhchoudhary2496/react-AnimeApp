@@ -5,6 +5,8 @@
 .content {
   line-height: 1.7rem;
   font-size: 1.2rem;
+  word-spacing: 1px;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .review {
