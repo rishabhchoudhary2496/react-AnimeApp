@@ -1,0 +1,87 @@
+.container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.form {
+  /* border: 1px solid red; */
+  width: 60%;
+  display: flex;
+  justify-content: center;
+}
+.inputText {
+  width: 60%;
+  background: rgba(255, 255, 255, 0.4);
+  border: 0;
+  padding: 0.7rem 1rem;
+  outline: rgba(255, 255, 255, 0.7);
+  font-size: 1.1rem;
+  border-radius: 4px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.button {
+  background: rgba(255, 255, 255, 0.4);
+  border: 0;
+  margin-left: 5px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  padding: 0.7rem;
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+}
+
+.button:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.button:active {
+  background: rgba(255, 255, 255, 0.7);
+  transform: scale(0.98);
+}
+
+.btnLoader {
+  margin-right: 5px;
+  margin-top: 2px;
+}
+
+@media (max-width: 360px) {
+  .form {
+    width: 100%;
+    /* background-color: red; */
+  }
+  .inputText {
+    width: 100%;
+  }
+}
+@media (max-width: 375px) {
+  .form {
+    width: 100%;
+    /* background-color: red; */
+  }
+  .inputText {
+    width: 100%;
+  }
+}
+@media (max-width: 380px) {
+  .form {
+    width: 100%;
+    /* background-color: red; */
+  }
+  .inputText {
+    width: 100%;
+  }
+}
+@media (max-width: 420px) {
+  .form {
+    width: 100%;
+    /* background-color: red; */
+  }
+  .inputText {
+    width: 100%;
+  }
+}

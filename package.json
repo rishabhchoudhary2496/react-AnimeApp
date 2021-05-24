@@ -18,6 +18,7 @@
     "@types/react-router-dom": "^5.1.7",
     "flatlist-react": "^1.5.0",
     "lodash.isempty": "^4.4.0",
+    "moment": "^2.29.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-jss": "^10.6.0",

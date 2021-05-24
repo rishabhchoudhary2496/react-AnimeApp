@@ -71,6 +71,12 @@ export const getCharacterPictures = async (characterId) => {
     'https://api.jikan.moe/v3/character/' + characterId + '/pictures'
   let response = await fetch(endpoint)
   let data = await response.json()
-  console.log('picture data', data)
   return data.pictures
+}
+
+export const searchAnime = async (query) => {
+  let endpoint = 'https://api.jikan.moe/v3/search/anime?q=' + query
+  let response = await fetch(endpoint)
+  let data = await response.json()
+  return data
 }

@@ -3,6 +3,7 @@ import Home from './screens/Home'
 import AnimeDetail from './screens/AnimeDetail'
 import NotFound from './screens/NotFound'
 import CharacterDetail from './screens/CharacterDetail'
+import SearchResult from './screens/SearchResult'
 
 import {
   BrowserRouter as Router,
@@ -23,6 +24,7 @@ function App() {
             path='/characterDetails/:id'
             component={CharacterDetail}
           ></Route>
+          <Route exact path='/searchResult' component={SearchResult}></Route>
           <Route path='/' component={NotFound}></Route>
           <Redirect from='/home' to='/'></Redirect>
         </Switch>

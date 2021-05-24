@@ -13,6 +13,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import breakpoints from '../utils/breakpoints'
 import LoadingSpinner from '../components/Loader'
 import Skeleton from '../components/Skeleton'
+import Search from '../components/Search'
 
 // Import Swiper styles
 
@@ -100,6 +101,7 @@ const Home = (): ReactElement => {
 
   return (
     <div className={styles.container}>
+      <Search />
       <h1 className={styles.heading}>Top Upcoming Anime</h1>
 
       {loadingUpcomingAnime && (

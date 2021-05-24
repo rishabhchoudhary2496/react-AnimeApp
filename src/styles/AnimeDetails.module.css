@@ -43,7 +43,6 @@ p {
 .textBox {
   padding-left: 1rem;
   padding-right: 1rem;
-  /* background-color: royalblue; */
 }
 
 .synopsis {
@@ -122,4 +121,35 @@ p {
   justify-content: center;
   align-items: center;
   height: 100vh;
+}
+
+@media (max-width: 360px) {
+  .textBox {
+    padding-left: 0rem;
+  }
+}
+@media (max-width: 375px) {
+  .textBox {
+    padding-left: 0rem;
+  }
+}
+@media (max-width: 380px) {
+  .textBox {
+    padding-left: 0rem;
+  }
+}
+@media (max-width: 420px) {
+  .textBox {
+    padding-left: 0rem;
+  }
+}
+@media (max-width: 480px) {
+  .textBox {
+    padding-left: 0rem;
+  }
+}
+@media (max-width: 600px) {
+  .textBox {
+    padding-left: 0rem;
+  }
 }
