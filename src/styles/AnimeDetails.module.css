@@ -47,6 +47,7 @@ p {
 
 .synopsis {
   padding-left: 1rem;
+  padding-right: 1rem;
   /* background-color: red; */
   margin: 2.5rem 0rem;
 }
