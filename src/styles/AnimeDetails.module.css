@@ -154,3 +154,20 @@ p {
     padding-left: 0rem;
   }
 }
+
+.reviewLink {
+  font-size: 1.2rem;
+  color: rgba(0, 0, 0, 0.9);
+  padding: 0.8rem 1rem;
+  margin-left: 1rem;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+.reviewLink:hover {
+  color: #b33771;
+}
+
+a {
+  text-decoration: none;
+}

@@ -3,6 +3,7 @@ import {
   getAnimeData,
   getAnimeCharacters,
   getAnimeRecommendations,
+  getAnimeReviews,
 } from '../service/animeService'
 import styles from '../styles/AnimeDetails.module.css'
 import ReactPlayer from 'react-player'
@@ -24,6 +25,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import breakpoints from '../utils/breakpoints'
 import LoadingSpinner from '../components/Loader'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
+import { Link } from 'react-router-dom'
 interface Match {
   match: {
     params: {
@@ -112,7 +114,6 @@ const AnimeDetail = ({ match }: Match): ReactElement => {
 
   const api = useCallback(async () => {
     const data = await getAnimeData(match.params.id)
-
     setDetails(data)
     setLoadingDetails(false)
   }, [match.params.id])
@@ -325,6 +326,14 @@ const AnimeDetail = ({ match }: Match): ReactElement => {
             </Swiper>
           </div>
         )}
+        <h1>
+          <Link
+            to={`/reviews/${match.params.id}`}
+            className={styles.reviewLink}
+          >
+            See Reviews
+          </Link>
+        </h1>
       </div>
     )
   }
