@@ -81,42 +81,42 @@ const Review = ({ match }: Match) => {
               <div>
                 <h2>Scores</h2>
                 <div className={styles.flex}>
-                  {review?.reviewer?.scores?.animation && (
+                  {review?.reviewer?.scores?.animation > 0 && (
                     <div className={styles.score}>
                       <p>Animation</p>
                       <p>{review?.reviewer.scores.animation}</p>
                     </div>
                   )}
 
-                  {review?.reviewer?.scores?.character && (
+                  {review?.reviewer?.scores?.character > 0 && (
                     <div className={styles.score}>
                       <p>Character</p>
                       <p>{review?.reviewer.scores.character}</p>
                     </div>
                   )}
 
-                  {review?.reviewer?.scores?.enjoyment && (
+                  {review?.reviewer?.scores?.enjoyment > 0 && (
                     <div className={styles.score}>
                       <p>Enjoyment</p>
                       <p>{review?.reviewer.scores.enjoyment}</p>
                     </div>
                   )}
 
-                  {review?.reviewer?.scores?.sound && (
+                  {review?.reviewer?.scores?.sound > 0 && (
                     <div className={styles.score}>
                       <p>Sound</p>
                       <p>{review?.reviewer.scores.sound}</p>
                     </div>
                   )}
 
-                  {review?.reviewer?.scores?.story && (
+                  {review?.reviewer?.scores?.story > 0 && (
                     <div className={styles.score}>
                       <p>Story</p>
                       <p>{review?.reviewer.scores.story}</p>
                     </div>
                   )}
 
-                  {review?.reviewer?.scores?.overall && (
+                  {review?.reviewer?.scores?.overall > 0 && (
                     <div className={styles.score}>
                       <p>Overall</p>
                       <p>{review?.reviewer.scores.overall}</p>
