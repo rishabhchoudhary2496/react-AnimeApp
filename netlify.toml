@@ -1,11 +1,3 @@
-# Settings in the [build] context are global and are applied to 
-# all contexts unless otherwise overridden by more specific contexts.
-[build]
-  command = "npm run build"
-  publish = "build-output/"
-  base = "front/"
-
-
 # The following redirect is intended for use with most SPAs 
 # that handle routing internally.
 [[redirects]]
