@@ -29,7 +29,7 @@ import { Link } from 'react-router-dom'
 interface Match {
   match: {
     params: {
-      id: string
+      id: number
     }
   }
 }
@@ -113,18 +113,18 @@ const AnimeDetail = ({ match }: Match): ReactElement => {
   const ref = useRef<HTMLSpanElement>(null)
 
   const api = useCallback(async () => {
-    const data = await getAnimeData(match.params.id)
+    const data = await getAnimeData(match?.params?.id)
     setDetails(data)
     setLoadingDetails(false)
   }, [match.params.id])
 
   const getCharactersApi = useCallback(async () => {
-    const data = await getAnimeCharacters(match.params.id)
+    const data = await getAnimeCharacters(match?.params?.id)
     setCharacters(data)
   }, [match.params.id])
 
   const fetchAnimeRecommendations = useCallback(async () => {
-    const data = await getAnimeRecommendations(match.params.id)
+    const data = await getAnimeRecommendations(match?.params?.id)
     setAnimeRecommendations(data)
   }, [match.params.id])
 
@@ -160,7 +160,12 @@ const AnimeDetail = ({ match }: Match): ReactElement => {
             height={300}
           ></ReactPlayer>
         ) : (
-          <img src={'/animeHeader.jpg'} width='100%' height={300}></img>
+          <img
+            src={'/animeHeader.jpg'}
+            alt='Header'
+            width='100%'
+            height={300}
+          ></img>
         )}
 
         <div className={styles.flex}>

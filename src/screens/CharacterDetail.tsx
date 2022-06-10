@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom'
 interface Match {
   match: {
     params: {
-      id: string
+      id: number
     }
   }
 }
@@ -67,16 +67,16 @@ const CharacterDetail = ({ match }: Match) => {
 
   const characterApi = useCallback(async () => {
     setLoading(true)
-    const data = await getCharacterDetail(match.params.id)
+    const data = await getCharacterDetail(match?.params?.id)
     setLoading(false)
     setCharacterDetail(data)
   }, [match.params.id])
 
   const characterPicturesApi = useCallback(async () => {
-    const data = await getCharacterPictures(match.params.id)
+    const data = await getCharacterPictures(match?.params?.id)
 
     setPictures(data)
-  }, [[match.params.id]])
+  }, [match.params.id])
 
   const formatted = characterDetail?.about.replaceAll('\n', '<br>')
 

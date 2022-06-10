@@ -1,4 +1,6 @@
 import { useState, useEffect, ReactElement, useCallback } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import styles from '../styles/Home.module.css'
 import {
   getTopAiringAnime,
@@ -8,10 +10,8 @@ import {
   getTopUpcomingAnime,
 } from '../service/animeService'
 import Card from '../components/Card'
-import FlatList from 'flatlist-react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import breakpoints from '../utils/breakpoints'
-import LoadingSpinner from '../components/Loader'
 import Skeleton from '../components/Skeleton'
 import Search from '../components/Search'
 
@@ -33,6 +33,7 @@ interface Anime {
 
 const Home = (): ReactElement => {
   const [upcomingAnime, setUpcomingAnime] = useState<Anime[]>([])
+  const [upcomingAnimePage, setUpcomingAnimePage] = useState(1)
   const [loadingUpcomingAnime, setLoadingUpcomingAnime] = useState(false)
   const [airingAnime, setAiringAnime] = useState<Anime[]>([])
   const [loadingAiringAnime, setLoadingAiringAnime] = useState(false)
@@ -45,10 +46,12 @@ const Home = (): ReactElement => {
 
   const getUpcomingAnime = useCallback(async () => {
     setLoadingUpcomingAnime(true)
-    const data = await getTopUpcomingAnime()
-    setUpcomingAnime(data)
+    const data = await getTopUpcomingAnime(upcomingAnimePage)
+    if (data) {
+      setUpcomingAnime([...upcomingAnime, ...data])
+    }
     setLoadingUpcomingAnime(false)
-  }, [upcomingAnime])
+  }, [upcomingAnime, upcomingAnimePage])
 
   const getAiringAnime = useCallback(async () => {
     setLoadingAiringAnime(true)
@@ -84,7 +87,7 @@ const Home = (): ReactElement => {
     getAnimeMovies()
     getSpecials()
     getTv()
-  }, [])
+  }, [upcomingAnimePage])
 
   const settings = {
     dots: true,
@@ -97,9 +100,10 @@ const Home = (): ReactElement => {
   return (
     <div className={styles.container}>
       <Search />
+
       <h1 className={styles.heading}>Top Upcoming Anime</h1>
 
-      {loadingUpcomingAnime && (
+      {loadingUpcomingAnime && upcomingAnimePage != 1 && (
         <div className={styles.horizontalRow}>
           <Skeleton></Skeleton>
           <Skeleton></Skeleton>
@@ -116,6 +120,7 @@ const Home = (): ReactElement => {
         breakpoints={breakpoints}
         onSlideChange={() => console.log('slide change')}
         onSwiper={(swiper) => console.log(swiper)}
+        onReachEnd={() => setUpcomingAnimePage((PrevState) => PrevState + 1)}
       >
         {upcomingAnime.map((anime) => (
           <SwiperSlide>
@@ -281,6 +286,9 @@ const Home = (): ReactElement => {
           </SwiperSlide>
         ))}
       </Swiper>
+      <div className={styles.footer}>
+        Made With <FontAwesomeIcon icon={faHeart} className={styles.heart} />
+      </div>
     </div>
   )
 }

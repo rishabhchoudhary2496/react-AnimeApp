@@ -32,7 +32,7 @@ interface IReview {
 interface Match {
   match: {
     params: {
-      id: string
+      id: number
     }
   }
 }
@@ -43,7 +43,7 @@ const Review = ({ match }: Match) => {
 
   const fetchReviews = useCallback(async () => {
     setLoading(true)
-    const data = await getAnimeReviews(match.params.id)
+    const data = await getAnimeReviews(match?.params?.id)
     console.log('data', data)
     setLoading(false)
     setReviews(data)
