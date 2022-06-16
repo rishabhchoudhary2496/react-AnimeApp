@@ -42,7 +42,18 @@ interface IDetails {
   episodes: string
   favorites: string
   genres: Array<object>
-  image_url: string
+  images: {
+    jpg?: {
+      image_url: string
+      small_image_url: string
+      large_image_url: string
+    }
+    webp?: {
+      image_url: string
+      small_image_url: string
+      large_image_url: string
+    }
+  }
   members: string
   popularity: string
   premiered: string
@@ -52,7 +63,11 @@ interface IDetails {
   synopsis: string
   title: string
   title_english: string
-  trailer_url: string
+  trailer: {
+    embed_url: string
+    url: string
+    youtube_id: string
+  }
   type: string
   url: string
   rank: string
@@ -60,20 +75,46 @@ interface IDetails {
 }
 
 interface ICharacter {
-  image_url: string
-  mal_id: string
-  name: string
+  character: {
+    images: {
+      jpg?: {
+        image_url?: string
+        small_image_url?: string
+        large_image_url?: string
+      }
+      webp?: {
+        image_url?: string
+        small_image_url?: string
+        large_image_url?: string
+      }
+    }
+    mal_id: string
+    name: string
+    url: string
+  }
   role: string
-  url: string
   voice_actors: Array<object>
 }
 
 interface IRecommendation {
-  image_url: string
-  mal_id: string
-  recommendation_count: number
-  recommendation_url: string
-  title: string
+  entry: {
+    mal_id: string
+    title: string
+    images: {
+      jpg?: {
+        image_url?: string
+        small_image_url?: string
+        large_image_url?: string
+      }
+      webp?: {
+        image_url?: string
+        small_image_url?: string
+        large_image_url?: string
+      }
+    }
+    url: string
+  }
+  votes: number
   url: string
 }
 
@@ -85,7 +126,7 @@ const emptyDetails: IDetails = {
   episodes: '',
   favorites: '',
   genres: [],
-  image_url: '',
+  images: {},
   members: '',
   popularity: '',
   premiered: '',
@@ -95,7 +136,11 @@ const emptyDetails: IDetails = {
   synopsis: '',
   title: '',
   title_english: '',
-  trailer_url: '',
+  trailer: {
+    embed_url: '',
+    url: '',
+    youtube_id: '',
+  },
   type: '',
   url: '',
   rank: '',
@@ -116,11 +161,13 @@ const AnimeDetail = ({ match }: Match): ReactElement => {
     const data = await getAnimeData(match?.params?.id)
     setDetails(data)
     setLoadingDetails(false)
+    console.log()
   }, [match.params.id])
 
   const getCharactersApi = useCallback(async () => {
     const data = await getAnimeCharacters(match?.params?.id)
     setCharacters(data)
+    console.log(characters)
   }, [match.params.id])
 
   const fetchAnimeRecommendations = useCallback(async () => {
@@ -153,9 +200,9 @@ const AnimeDetail = ({ match }: Match): ReactElement => {
     return (
       <div className={styles.container}>
         <span ref={ref}></span>
-        {details?.trailer_url !== null ? (
+        {details?.trailer?.embed_url !== null ? (
           <ReactPlayer
-            url={details?.trailer_url}
+            url={details?.trailer?.embed_url}
             width='100%'
             height={300}
           ></ReactPlayer>
@@ -170,29 +217,18 @@ const AnimeDetail = ({ match }: Match): ReactElement => {
 
         <div className={styles.flex}>
           <div style={{ width: '225px' }}>
-            {details?.image_url && (
-              <LazyLoadImage effect='blur' src={details?.image_url} alt='' />
+            {details?.images?.jpg?.large_image_url && (
+              <LazyLoadImage
+                effect='blur'
+                height={317}
+                src={details?.images?.jpg?.large_image_url}
+                alt=''
+              />
             )}
           </div>
           <div className={styles.textBox}>
-            {details?.title_english && (
-              <p>
-                English Title
-                <FontAwesomeIcon
-                  className={styles.penIcon}
-                  icon={faPen}
-                />: {details?.title_english}
-              </p>
-            )}
-            {details?.title && (
-              <p>
-                Title
-                <FontAwesomeIcon
-                  className={styles.penIcon}
-                  icon={faPen}
-                />: {details?.title}
-              </p>
-            )}
+            {details?.title_english && <p>Title: {details?.title_english}</p>}
+            {details?.title && <p>Title Japanese: {details?.title}</p>}
 
             {details?.favorites && (
               <p>
@@ -288,16 +324,16 @@ const AnimeDetail = ({ match }: Match): ReactElement => {
               onSlideChange={() => console.log('slide change')}
               onSwiper={(swiper) => console.log(swiper)}
             >
-              {characters.map((character) => (
+              {characters.map((item) => (
                 <SwiperSlide>
                   <CharactersList
-                    image_url={character.image_url}
-                    mal_id={character.mal_id}
-                    name={character.name}
-                    role={character.role}
-                    url={character.url}
-                    voice_actors={character.voice_actors}
-                    key={character.mal_id}
+                    image_url={item?.character?.images?.jpg?.image_url}
+                    mal_id={item?.character?.mal_id}
+                    name={item?.character?.name}
+                    role={item?.role}
+                    url={item?.character?.url}
+                    voice_actors={item?.voice_actors}
+                    key={item?.character?.mal_id}
                   ></CharactersList>
                 </SwiperSlide>
               ))}
@@ -318,13 +354,13 @@ const AnimeDetail = ({ match }: Match): ReactElement => {
               {animeRecommendations.map((anime) => (
                 <SwiperSlide>
                   <RecommendationList
-                    image_url={anime.image_url}
-                    mal_id={anime.mal_id}
-                    recommendation_count={anime.recommendation_count}
-                    recommendation_url={anime.recommendation_url}
-                    title={anime.title}
-                    url={anime.url}
-                    key={anime.mal_id}
+                    image_url={anime?.entry?.images?.jpg?.large_image_url}
+                    mal_id={anime?.entry?.mal_id}
+                    recommendation_count={anime?.votes}
+                    recommendation_url={anime?.url}
+                    title={anime?.entry?.title}
+                    url={anime?.entry?.url}
+                    key={anime?.entry?.mal_id}
                   ></RecommendationList>
                 </SwiperSlide>
               ))}

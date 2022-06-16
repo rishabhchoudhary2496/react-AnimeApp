@@ -1,11 +1,27 @@
 const axios = require('axios')
 
+interface IPagination {
+  current_page: number
+  has_next_page: boolean
+  items: {
+    count: number
+    total: number
+    per_page: number
+  }
+  last_visible_page: number
+}
+
+interface IAnimeData {
+  pagination: IPagination
+  data: []
+}
+
 export const getTopUpcomingAnime = async (page: number) => {
-  const URL = `https://api.jikan.moe/v3/top/anime/${page}/upcoming`
+  const URL = `https://api.jikan.moe/v4/seasons/upcoming?page=${page}`
   try {
     const response = await axios.get(URL)
     if (response?.status === 200) {
-      const data = response?.data?.top
+      const data: IAnimeData = response?.data
       return data
     }
   } catch (error: unknown) {
@@ -13,12 +29,14 @@ export const getTopUpcomingAnime = async (page: number) => {
   }
 }
 
-export const getTopAiringAnime = async () => {
-  const URL = `https://api.jikan.moe/v3/top/anime/1/airing`
+export const getTopAiringAnime = async (page: number) => {
+  console.log('page', page)
+  const URL = `https://api.jikan.moe/v4/seasons/now?page=${page}`
   try {
     const response = await axios.get(URL)
+    console.log('response airing', response)
     if (response?.status === 200) {
-      const data = response?.data?.top
+      const data = response?.data
       return data
     }
   } catch (error: unknown) {
@@ -26,47 +44,8 @@ export const getTopAiringAnime = async () => {
   }
 }
 
-export const getTopAnimeMovies = async () => {
-  const URL = `https://api.jikan.moe/v3/top/anime/1/movie`
-  try {
-    const response = await axios.get(URL)
-    if (response?.status === 200) {
-      const data = response?.data?.top
-      return data
-    }
-  } catch (error: unknown) {
-    console.log('error', error)
-  }
-}
-
-export const getTopSpecials = async () => {
-  const URL = `https://api.jikan.moe/v3/top/anime/1/special`
-  try {
-    const response = await axios.get(URL)
-    if (response?.status === 200) {
-      const data = response?.data?.top
-      return data
-    }
-  } catch (error: unknown) {
-    console.log('error', error)
-  }
-}
-
-export const getTopTv = async () => {
-  const URL = `https://api.jikan.moe/v3/top/anime/1/tv`
-  try {
-    const response = await axios.get(URL)
-    if (response?.status === 200) {
-      const data = response?.data?.top
-      return data
-    }
-  } catch (error: unknown) {
-    console.log('error', error)
-  }
-}
-
-export const getAnimeData = async (animeId: number) => {
-  const URL = `https://api.jikan.moe/v3/anime/${animeId}`
+export const getTopAnimeMovies = async (page: number) => {
+  const URL = `https://api.jikan.moe/v4/top/anime?type=movie&page=${page}`
   try {
     const response = await axios.get(URL)
     if (response?.status === 200) {
@@ -78,12 +57,66 @@ export const getAnimeData = async (animeId: number) => {
   }
 }
 
-export const getAnimeCharacters = async (animeId: number) => {
-  const URL = `https://api.jikan.moe/v3/anime/${animeId}/characters_staff`
+export const getTopSpecials = async (page: number) => {
+  const URL = `https://api.jikan.moe/v4/top/anime?type=special&page=${page}`
   try {
     const response = await axios.get(URL)
     if (response?.status === 200) {
-      const data = response?.data?.characters
+      const data = response?.data
+      return data
+    }
+  } catch (error: unknown) {
+    console.log('error', error)
+  }
+}
+
+export const getTopTv = async (page: number) => {
+  const URL = `https://api.jikan.moe/v4/top/anime?type=tv&page=${page}`
+  try {
+    const response = await axios.get(URL)
+    if (response?.status === 200) {
+      const data = response?.data
+      return data
+    }
+  } catch (error: unknown) {
+    console.log('error', error)
+  }
+}
+
+export const getTopOva = async (page: number) => {
+  const URL = `https://api.jikan.moe/v4/top/anime?type=ova&page=${page}`
+  try {
+    const response = await axios.get(URL)
+    console.log('responseova', response)
+    if (response?.status === 200) {
+      const data = response?.data
+      return data
+    }
+  } catch (error: unknown) {
+    console.log('error', error)
+  }
+}
+
+export const getAnimeData = async (animeId: number) => {
+  const URL = `https://api.jikan.moe/v4/anime/${animeId}/full`
+  try {
+    const response = await axios.get(URL)
+    if (response?.status === 200) {
+      const data = response?.data?.data
+      return data
+    }
+  } catch (error: unknown) {
+    console.log('error', error)
+  }
+}
+
+export const getAnimeCharacters = async (animeId: number) => {
+  const URL = `https://api.jikan.moe/v4/anime/${animeId}/characters`
+  try {
+    const response = await axios.get(URL)
+    if (response?.status === 200) {
+      console.log('response', response)
+      const data = response?.data?.data
       return data
     }
   } catch (error: unknown) {
@@ -92,11 +125,11 @@ export const getAnimeCharacters = async (animeId: number) => {
 }
 
 export const getAnimeRecommendations = async (animeId: number) => {
-  const URL = `https://api.jikan.moe/v3/anime/${animeId}/recommendations`
+  const URL = `https://api.jikan.moe/v4/anime/${animeId}/recommendations`
   try {
     const response = await axios.get(URL)
     if (response?.status === 200) {
-      const data = response?.data?.recommendations
+      const data = response?.data?.data
       return data
     }
   } catch (error: unknown) {
@@ -118,11 +151,11 @@ export const getAnimeReviews = async (animeId: number) => {
 }
 
 export const getCharacterDetail = async (characterId: number) => {
-  const URL = `https://api.jikan.moe/v3/character/${characterId}`
+  const URL = `https://api.jikan.moe/v4/characters/${characterId}/full`
   try {
     const response = await axios.get(URL)
     if (response?.status === 200) {
-      const data = response?.data
+      const data = response?.data?.data
       return data
     }
   } catch (error: unknown) {
@@ -131,11 +164,11 @@ export const getCharacterDetail = async (characterId: number) => {
 }
 
 export const getCharacterPictures = async (characterId: number) => {
-  const URL = `https://api.jikan.moe/v3/character/${characterId}/pictures`
+  const URL = `https://api.jikan.moe/v4/characters/${characterId}/pictures`
   try {
     const response = await axios.get(URL)
     if (response?.status === 200) {
-      const data = response?.data?.pictures
+      const data = response?.data?.data
       return data
     }
   } catch (error: any) {

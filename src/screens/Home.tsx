@@ -8,86 +8,159 @@ import {
   getTopSpecials,
   getTopTv,
   getTopUpcomingAnime,
+  getTopOva,
 } from '../service/animeService'
 import Card from '../components/Card'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import breakpoints from '../utils/breakpoints'
 import Skeleton from '../components/Skeleton'
 import Search from '../components/Search'
+import LoadingAnime from './LoadingAnime'
 
 // Import Swiper styles
+
+interface AnimeData {}
 
 interface Anime {
   end_date: Date | null
   episodes: Number | null
-  image_url: string
+  images: {
+    jpg?: {
+      image_url: string
+      small_image_url: string
+      large_image_url: string
+    }
+    webp?: {
+      image_url: string
+      small_image_url: string
+      large_image_url: string
+    }
+  }
   mal_id: number
   rank: number
   score: number
   start_date: Date
   title: string
+  title_english?: string
   type: string
   url: string
   members: number
+  status: string | null
+}
+
+interface IPagination {
+  current_page: number
+  has_next_page: boolean
+  items: {
+    count: number
+    total: number
+    per_page: number
+  }
+  last_visible_page: number
+}
+
+interface IAnimeData {
+  pagination: IPagination
+  data: Anime[]
+}
+const animeState = {
+  pagination: {
+    current_page: 0,
+    has_next_page: false,
+    items: {
+      count: 0,
+      total: 0,
+      per_page: 0,
+    },
+    last_visible_page: 0,
+  },
+  data: [],
 }
 
 const Home = (): ReactElement => {
-  const [upcomingAnime, setUpcomingAnime] = useState<Anime[]>([])
-  const [upcomingAnimePage, setUpcomingAnimePage] = useState(1)
-  const [loadingUpcomingAnime, setLoadingUpcomingAnime] = useState(false)
-  const [airingAnime, setAiringAnime] = useState<Anime[]>([])
-  const [loadingAiringAnime, setLoadingAiringAnime] = useState(false)
-  const [animeMovie, setAnimeMovies] = useState<Anime[]>([])
-  const [loadingAnimeMovie, setLoadingAnimeMovie] = useState(false)
-  const [topSpecials, setTopSpecials] = useState<Anime[]>([])
-  const [loadingSpecials, setLoadingSpecials] = useState(false)
-  const [topTv, setTopTv] = useState<Anime[]>([])
-  const [loadingTv, setLoadingTv] = useState(false)
+  const [upcomingAnime, setUpcomingAnime] = useState<IAnimeData>(animeState)
+  const [loadingUpcomingAnime, setLoadingUpcomingAnime] = useState(true)
 
-  const getUpcomingAnime = useCallback(async () => {
+  const [airingAnime, setAiringAnime] = useState<IAnimeData>(animeState)
+  const [loadingAiringAnime, setLoadingAiringAnime] = useState(true)
+
+  const [animeMovie, setAnimeMovies] = useState<IAnimeData>(animeState)
+  const [loadingAnimeMovie, setLoadingAnimeMovie] = useState(true)
+
+  const [topSpecials, setTopSpecials] = useState<IAnimeData>(animeState)
+  const [loadingSpecials, setLoadingSpecials] = useState(true)
+
+  const [topTv, setTopTv] = useState<IAnimeData>(animeState)
+  const [loadingTv, setLoadingTv] = useState(true)
+
+  const getUpcomingAnime = useCallback(async (page = 1) => {
     setLoadingUpcomingAnime(true)
-    const data = await getTopUpcomingAnime(upcomingAnimePage)
-    if (data) {
-      setUpcomingAnime([...upcomingAnime, ...data])
+    const result = await getTopUpcomingAnime(page)
+    if (result) {
+      setUpcomingAnime({
+        pagination: result?.pagination,
+        data: upcomingAnime.data.concat(result?.data),
+      })
     }
     setLoadingUpcomingAnime(false)
-  }, [upcomingAnime, upcomingAnimePage])
+  }, [])
 
-  const getAiringAnime = useCallback(async () => {
+  const getAiringAnime = useCallback(async (page = 1) => {
     setLoadingAiringAnime(true)
-    const data = await getTopAiringAnime()
-    setAiringAnime(data)
+    const result = await getTopAiringAnime(page)
+    if (result) {
+      setAiringAnime({
+        pagination: result?.pagination,
+        data: airingAnime.data.concat(result?.data),
+      })
+    }
     setLoadingAiringAnime(false)
-  }, [airingAnime])
+  }, [])
 
-  const getAnimeMovies = useCallback(async () => {
+  const getAnimeMovies = useCallback(async (page = 1) => {
     setLoadingAnimeMovie(true)
-    const data = await getTopAnimeMovies()
-    setAnimeMovies(data)
+    const result = await getTopAnimeMovies(page)
+    if (result) {
+      setAnimeMovies({
+        pagination: result?.pagination,
+        data: animeMovie.data.concat(result?.data),
+      })
+    }
     setLoadingAnimeMovie(false)
-  }, [animeMovie])
+  }, [])
 
-  const getSpecials = useCallback(async () => {
+  const getSpecials = useCallback(async (page = 1) => {
     setLoadingSpecials(true)
-    const data = await getTopSpecials()
-    setTopSpecials(data)
+    const result = await getTopSpecials(page)
+    if (result) {
+      setTopSpecials({
+        pagination: result?.pagination,
+        data: topSpecials.data.concat(result?.data),
+      })
+    }
     setLoadingSpecials(false)
-  }, [topSpecials])
+  }, [])
 
-  const getTv = useCallback(async () => {
+  const getTv = useCallback(async (page = 1) => {
     setLoadingTv(true)
-    const data = await getTopTv()
-    setTopTv(data)
+    const result = await getTopTv(page)
+    if (result) {
+      setTopTv({
+        pagination: result?.pagination,
+        data: topTv.data.concat(result?.data),
+      })
+    }
     setLoadingTv(false)
-  }, [topTv])
+  }, [])
 
   useEffect(() => {
+    // console.log('re reneering get upcoming anime', upcomingAnimePage)
     getUpcomingAnime()
     getAiringAnime()
     getAnimeMovies()
     getSpecials()
     getTv()
-  }, [upcomingAnimePage])
+  }, [])
 
   const settings = {
     dots: true,
@@ -102,190 +175,175 @@ const Home = (): ReactElement => {
       <Search />
 
       <h1 className={styles.heading}>Top Upcoming Anime</h1>
-
-      {loadingUpcomingAnime && upcomingAnimePage != 1 && (
-        <div className={styles.horizontalRow}>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-        </div>
-      )}
-
       <Swiper
         spaceBetween={4}
         slidesPerView={4.7}
         breakpoints={breakpoints}
         onSlideChange={() => console.log('slide change')}
         onSwiper={(swiper) => console.log(swiper)}
-        onReachEnd={() => setUpcomingAnimePage((PrevState) => PrevState + 1)}
+        onReachEnd={() =>
+          upcomingAnime?.pagination.has_next_page
+            ? getUpcomingAnime(upcomingAnime?.pagination?.current_page + 1)
+            : null
+        }
       >
-        {upcomingAnime.map((anime) => (
+        {loadingUpcomingAnime && <LoadingAnime />}
+        {upcomingAnime?.data?.map((anime) => (
           <SwiperSlide>
             <Card
-              end_date={anime.end_date}
+              end_date={anime?.end_date}
               episodes={anime.episodes}
-              image_url={anime.image_url}
+              image_url={anime.images?.jpg?.large_image_url}
               mal_id={anime.mal_id}
               members={anime.members}
               rank={anime.rank}
               score={anime.score}
-              start_date={anime.start_date}
-              title={anime.title}
+              start_date={anime?.start_date}
+              title={anime.title_english ? anime.title_english : anime.title}
               type={anime.type}
               url={anime.url}
+              status={anime?.status}
             />
           </SwiperSlide>
         ))}
       </Swiper>
+
       <h1 className={styles.heading}>Top Airing Anime</h1>
-      {loadingAiringAnime && (
-        <div className={styles.horizontalRow}>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-        </div>
-      )}
-
       <Swiper
         spaceBetween={4}
         slidesPerView={4.7}
         breakpoints={breakpoints}
         onSlideChange={() => console.log('slide change')}
         onSwiper={(swiper) => console.log(swiper)}
+        onReachEnd={() =>
+          airingAnime?.pagination.has_next_page
+            ? getAiringAnime(airingAnime?.pagination?.current_page + 1)
+            : null
+        }
       >
-        {airingAnime.map((anime) => (
+        {loadingAiringAnime && <LoadingAnime />}
+        {airingAnime?.data.map((anime) => (
           <SwiperSlide>
             <Card
-              end_date={anime.end_date}
+              end_date={anime?.end_date}
               episodes={anime.episodes}
-              image_url={anime.image_url}
+              image_url={anime.images?.jpg?.large_image_url}
               mal_id={anime.mal_id}
               members={anime.members}
               rank={anime.rank}
               score={anime.score}
-              start_date={anime.start_date}
-              title={anime.title}
+              start_date={anime?.start_date}
+              title={anime.title_english ? anime.title_english : anime.title}
               type={anime.type}
               url={anime.url}
+              status={anime?.status}
             />
           </SwiperSlide>
         ))}
       </Swiper>
+
       <h1 className={styles.heading}>Top Anime Movies</h1>
-      {loadingAnimeMovie && (
-        <div className={styles.horizontalRow}>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-        </div>
-      )}
       <Swiper
         spaceBetween={4}
         slidesPerView={4.7}
         breakpoints={breakpoints}
         onSlideChange={() => console.log('slide change')}
         onSwiper={(swiper) => console.log(swiper)}
+        onReachEnd={() =>
+          animeMovie?.pagination.has_next_page
+            ? getAnimeMovies(animeMovie?.pagination?.current_page + 1)
+            : null
+        }
       >
-        {animeMovie.map((anime) => (
+        {loadingAnimeMovie && <LoadingAnime />}
+        {animeMovie?.data.map((anime) => (
           <SwiperSlide>
             <Card
-              end_date={anime.end_date}
+              end_date={anime?.end_date}
               episodes={anime.episodes}
-              image_url={anime.image_url}
+              image_url={anime.images?.jpg?.large_image_url}
               mal_id={anime.mal_id}
               members={anime.members}
               rank={anime.rank}
               score={anime.score}
-              start_date={anime.start_date}
-              title={anime.title}
+              start_date={anime?.start_date}
+              title={anime.title_english ? anime.title_english : anime.title}
               type={anime.type}
               url={anime.url}
+              status={anime?.status}
             />
           </SwiperSlide>
         ))}
       </Swiper>
-      <h1 className={styles.heading}>Top Specials</h1>
-      {loadingSpecials && (
-        <div className={styles.horizontalRow}>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-        </div>
-      )}
-      <Swiper
-        spaceBetween={4}
-        slidesPerView={4.7}
-        breakpoints={breakpoints}
-        onSlideChange={() => console.log('slide change')}
-        onSwiper={(swiper) => console.log(swiper)}
-      >
-        {topSpecials.map((anime) => (
-          <SwiperSlide>
-            <Card
-              end_date={anime.end_date}
-              episodes={anime.episodes}
-              image_url={anime.image_url}
-              mal_id={anime.mal_id}
-              members={anime.members}
-              rank={anime.rank}
-              score={anime.score}
-              start_date={anime.start_date}
-              title={anime.title}
-              type={anime.type}
-              url={anime.url}
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-      <h1 className={styles.heading}>Top TV</h1>
-      {loadingTv && (
-        <div className={styles.horizontalRow}>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-          <Skeleton></Skeleton>
-        </div>
-      )}
 
+      {topSpecials?.data && <h1 className={styles.heading}>Top Specials</h1>}
       <Swiper
         spaceBetween={4}
         slidesPerView={4.7}
         breakpoints={breakpoints}
         onSlideChange={() => console.log('slide change')}
         onSwiper={(swiper) => console.log(swiper)}
+        onReachEnd={() =>
+          topSpecials?.pagination.has_next_page
+            ? getSpecials(topSpecials?.pagination?.current_page + 1)
+            : null
+        }
       >
-        {topTv.map((anime) => (
+        {loadingSpecials && <LoadingAnime />}
+        {topSpecials?.data.map((anime) => (
           <SwiperSlide>
             <Card
-              end_date={anime.end_date}
+              end_date={anime?.end_date}
               episodes={anime.episodes}
-              image_url={anime.image_url}
+              image_url={anime.images?.jpg?.large_image_url}
               mal_id={anime.mal_id}
               members={anime.members}
               rank={anime.rank}
               score={anime.score}
-              start_date={anime.start_date}
-              title={anime.title}
+              start_date={anime?.start_date}
+              title={anime.title_english ? anime.title_english : anime.title}
               type={anime.type}
               url={anime.url}
+              status={anime?.status}
             />
           </SwiperSlide>
         ))}
       </Swiper>
+
+      {topTv?.data && <h1 className={styles.heading}>Top TV Shows</h1>}
+      <Swiper
+        spaceBetween={4}
+        slidesPerView={4.7}
+        breakpoints={breakpoints}
+        onSlideChange={() => console.log('slide change')}
+        onSwiper={(swiper) => console.log(swiper)}
+        onReachEnd={() =>
+          topTv?.pagination.has_next_page
+            ? getTv(topTv?.pagination?.current_page + 1)
+            : null
+        }
+      >
+        {loadingTv && <LoadingAnime />}
+        {topTv?.data.map((anime) => (
+          <SwiperSlide>
+            <Card
+              end_date={anime?.end_date}
+              episodes={anime.episodes}
+              image_url={anime.images?.jpg?.large_image_url}
+              mal_id={anime.mal_id}
+              members={anime.members}
+              rank={anime.rank}
+              score={anime.score}
+              start_date={anime?.start_date}
+              title={anime.title_english ? anime.title_english : anime.title}
+              type={anime.type}
+              url={anime.url}
+              status={anime?.status}
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
       <div className={styles.footer}>
         Made With <FontAwesomeIcon icon={faHeart} className={styles.heart} />
       </div>

@@ -20,8 +20,8 @@
 }
 
 .title {
-  font-weight: 400;
-  color: rgba(0, 0, 0, 0.8);
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.9);
   text-decoration: none;
   font-family: 'Montserrat', sans-serif;
 }
@@ -44,11 +44,11 @@ a {
 
 .starIcon {
   margin: 0px 5px;
-  color: #fbc531;
+  color: #FF69B4;
 }
 .calendarIcon {
   margin: 0px 6px;
-  color: #9b59b6;
+  color: #fff;
 }
 
 .img {
@@ -59,4 +59,12 @@ a {
 .imgPlaceholder {
   width: 225px;
   height: 317px;
+}
+
+.status {
+  background-color: #8a66aa;
+  color:#fff;
+  padding: 6px 16px;
+  border-radius:15px;
+  display:inline-block;
 }

@@ -7,7 +7,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component'
 interface CardProps {
   end_date: Date | null
   episodes: Number | null
-  image_url: string
+  image_url: string | undefined
   mal_id: number
   members: number
   rank: number
@@ -16,6 +16,7 @@ interface CardProps {
   title: string
   type: string
   url: string
+  status: string | null
 }
 
 const Card = ({
@@ -30,6 +31,7 @@ const Card = ({
   title,
   type,
   url,
+  status
 }: CardProps): ReactElement => {
   return (
     <div className={styles.card}>
@@ -52,6 +54,10 @@ const Card = ({
             Airing {start_date}
           </p>
         )}
+        {
+          status && <span className={styles.status}>
+            {status}</span>
+        }
         {score > 0 && (
           <p className={styles.score}>
             {' '}
@@ -59,6 +65,7 @@ const Card = ({
             {score}
           </p>
         )}
+
       </Link>
     </div>
   )

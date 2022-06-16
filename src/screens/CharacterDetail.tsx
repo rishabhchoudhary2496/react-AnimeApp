@@ -18,45 +18,96 @@ interface Match {
 }
 
 interface IVoiceActor {
-  image_url: string
+  person: {
+    mal_id: string
+    url: string
+    name: string
+    images: {
+      jpg?: {
+        image_url?: string
+        small_image_url?: string
+        large_image_url?: string
+      }
+      webp?: {
+        image_url?: string
+        small_image_url?: string
+        large_image_url?: string
+      }
+    }
+  }
   language: string
-  mal_id: string
-  name: string
-  url: string
 }
 
-interface IAnimeGraphy {
-  image_url: string
-  mal_id: string
-  name: string
-  role: 'Main'
-  url: string
-}
-
-interface IManoGraphy {
-  image_url: string
-  mal_id: string
-  name: string
+interface IAnimeRelated {
   role: string
-  url: string
+  anime: {
+    mal_id: string
+    url: string
+    images: {
+      jpg?: {
+        image_url?: string
+        small_image_url?: string
+        large_image_url?: string
+      }
+      webp?: {
+        image_url?: string
+        small_image_url?: string
+        large_image_url?: string
+      }
+    }
+    title: string
+  }
+}
+
+interface IMangaRelated {
+  role: string
+  manga: {
+    mal_id: string
+    url: string
+    images: {
+      jpg?: {
+        image_url?: string
+        small_image_url?: string
+        large_image_url?: string
+      }
+      webp?: {
+        image_url?: string
+        small_image_url?: string
+        large_image_url?: string
+      }
+    }
+    title: string
+  }
 }
 interface ICharacter {
   about: string
-  animeography: Array<IAnimeGraphy>
-  image_url: string
+  anime: Array<IAnimeRelated>
+  images: {
+    jpg?: {
+      image_url?: string
+      small_image_url?: string
+      large_image_url?: string
+    }
+    webp?: {
+      image_url?: string
+      small_image_url?: string
+      large_image_url?: string
+    }
+  }
   mal_id: string
-  mangaography: Array<IManoGraphy>
-  member_favorites: number
+  manga: Array<IMangaRelated>
+  favorites: number
   name: string
   name_kanji: string
   nicknames: Array<string>
   url: string
-  voice_actors: Array<IVoiceActor>
+  voices: Array<IVoiceActor>
 }
 
 interface IPicture {
-  large: string
-  small: string
+  jpg: {
+    image_url: string
+  }
 }
 
 const CharacterDetail = ({ match }: Match) => {
@@ -100,7 +151,7 @@ const CharacterDetail = ({ match }: Match) => {
           <div className={styles.profile}>
             <LazyLoadImage
               effect='blur'
-              src={characterDetail?.image_url}
+              src={characterDetail?.images?.jpg?.image_url}
               width={225}
               height={317}
               alt=''
@@ -123,96 +174,100 @@ const CharacterDetail = ({ match }: Match) => {
           </p>
         </div>
 
-        {characterDetail?.animeography &&
-          characterDetail?.animeography.length > 0 && (
-            <div className={styles.pictureBox}>
-              <h1 style={{ textAlign: 'center' }}>Animeography</h1>
-              <Swiper
-                spaceBetween={4}
-                slidesPerView={4.7}
-                breakpoints={breakpoints}
-                onSlideChange={() => console.log('slide change')}
-                onSwiper={(swiper) => console.log(swiper)}
-              >
-                {characterDetail?.animeography.map((animeCharacter) => (
-                  <SwiperSlide>
-                    <div className={styles.profile}>
-                      <Link to={`/animeDetails/${animeCharacter?.mal_id}`}>
-                        <LazyLoadImage
-                          effect='blur'
-                          src={animeCharacter?.image_url}
-                          className={styles.img}
-                          height={317}
-                          width={225}
-                          alt=''
-                        />
-                        <p className={styles.name}>{animeCharacter?.name}</p>
-                        <p className={styles.name}>{animeCharacter?.role}</p>
-                      </Link>
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div>
-          )}
-        {characterDetail?.mangaography &&
-          characterDetail?.mangaography.length > 0 && (
-            <div className={styles.pictureBox}>
-              <h1 style={{ textAlign: 'center' }}>Mangaography</h1>
-              <Swiper
-                spaceBetween={4}
-                slidesPerView={4.7}
-                breakpoints={breakpoints}
-                onSlideChange={() => console.log('slide change')}
-                onSwiper={(swiper) => console.log(swiper)}
-              >
-                {characterDetail?.mangaography.map((mangaCharacter) => (
-                  <SwiperSlide>
-                    <div className={styles.profile}>
+        {characterDetail?.anime && characterDetail?.anime.length > 0 && (
+          <div className={styles.pictureBox}>
+            <h1 style={{ textAlign: 'center' }}>Anime</h1>
+            <Swiper
+              spaceBetween={4}
+              slidesPerView={4.7}
+              breakpoints={breakpoints}
+              onSlideChange={() => console.log('slide change')}
+              onSwiper={(swiper) => console.log(swiper)}
+            >
+              {characterDetail?.anime.map((animeCharacter) => (
+                <SwiperSlide>
+                  <div className={styles.profile}>
+                    <Link to={`/animeDetails/${animeCharacter?.anime?.mal_id}`}>
                       <LazyLoadImage
                         effect='blur'
-                        src={mangaCharacter?.image_url}
+                        src={
+                          animeCharacter?.anime?.images?.jpg?.large_image_url
+                        }
                         className={styles.img}
                         height={317}
                         width={225}
                         alt=''
                       />
-                      <p className={styles.name}>{mangaCharacter?.name}</p>
-                      <p className={styles.name}>{mangaCharacter?.role}</p>
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div>
-          )}
+                      <p className={styles.name}>
+                        {animeCharacter?.anime?.title}
+                      </p>
+                      <p className={styles.name}>{animeCharacter?.role}</p>
+                    </Link>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        )}
+        {characterDetail?.manga && characterDetail?.manga.length > 0 && (
+          <div className={styles.pictureBox}>
+            <h1 style={{ textAlign: 'center' }}>Manga</h1>
+            <Swiper
+              spaceBetween={4}
+              slidesPerView={4.7}
+              breakpoints={breakpoints}
+              onSlideChange={() => console.log('slide change')}
+              onSwiper={(swiper) => console.log(swiper)}
+            >
+              {characterDetail?.manga.map((mangaCharacter) => (
+                <SwiperSlide>
+                  <div className={styles.profile}>
+                    <LazyLoadImage
+                      effect='blur'
+                      src={mangaCharacter?.manga?.images?.jpg?.large_image_url}
+                      className={styles.img}
+                      height={317}
+                      width={225}
+                      alt=''
+                    />
+                    <p className={styles.name}>
+                      {mangaCharacter?.manga?.title}
+                    </p>
+                    <p className={styles.name}>{mangaCharacter?.role}</p>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        )}
 
-        {characterDetail?.voice_actors &&
-          characterDetail.voice_actors.length > 0 && (
-            <div className={styles.pictureBox}>
-              <h1 style={{ textAlign: 'center' }}>Voice Actors</h1>
-              <Swiper
-                spaceBetween={4}
-                slidesPerView={4.7}
-                breakpoints={breakpoints}
-                onSlideChange={() => console.log('slide change')}
-                onSwiper={(swiper) => console.log(swiper)}
-              >
-                {characterDetail.voice_actors.map((actor) => (
-                  <SwiperSlide>
-                    <div className={styles.profile}>
-                      <LazyLoadImage
-                        effect='blur'
-                        src={actor?.image_url}
-                        height={317}
-                        alt=''
-                      />
-                      <p className={styles.name}>{actor?.name}</p>
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div>
-          )}
+        {characterDetail?.voices && characterDetail.voices.length > 0 && (
+          <div className={styles.pictureBox}>
+            <h1 style={{ textAlign: 'center' }}>Voice Actors</h1>
+            <Swiper
+              spaceBetween={4}
+              slidesPerView={4.7}
+              breakpoints={breakpoints}
+              onSlideChange={() => console.log('slide change')}
+              onSwiper={(swiper) => console.log(swiper)}
+            >
+              {characterDetail.voices.map((actor) => (
+                <SwiperSlide>
+                  <div className={styles.profile}>
+                    <LazyLoadImage
+                      effect='blur'
+                      src={actor?.person?.images?.jpg?.image_url}
+                      height={317}
+                      alt=''
+                    />
+                    <p className={styles.name}>{actor?.person?.name}</p>
+                    <span className={styles.name}>{actor?.language}</span>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        )}
 
         {pictures && pictures.length > 0 && (
           <div className={styles.pictureBox}>
@@ -231,7 +286,7 @@ const CharacterDetail = ({ match }: Match) => {
                       effect='blur'
                       height={317}
                       className={styles.profile}
-                      src={image?.large}
+                      src={image?.jpg?.image_url}
                       alt=''
                     />
                   </div>

@@ -3,7 +3,7 @@ import styles from './Character.module.css'
 import { Link } from 'react-router-dom'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 interface ICharacter {
-  image_url: string
+  image_url: string | undefined
   mal_id: string
   name: string
   role: string
